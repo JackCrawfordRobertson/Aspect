@@ -1,0 +1,111 @@
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Space the title and bottom content */
+  height: 100vh; /* Full-screen height */
+  padding: 0px;
+  color: #F6F6F6;
+}
+
+/* Title styling for the top */
+.title {
+  width: 100%;
+  font-size: 3.2rem;
+  font-weight: bold;
+  line-height: 0.8;
+  align-self: flex-start; /* Position the title at the top-left */
+  margin-top: 5em; /* Add some spacing from the top */
+  text-align: left;
+}
+
+/* Bottom content container */
+.bottomContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Align everything to the bottom */
+  align-items: center;
+  gap: 1rem; /* Add consistent spacing between elements */
+  width: 100%;
+  padding: 0 0px; 
+}
+
+/* Form container for login inputs */
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+
+/* Input fields */
+.inputField {
+  background: #F6F6F6;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #646464;
+}
+
+.inputField::placeholder {
+  color: #646464;
+}
+
+/* Button styling */
+.loginButton {
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: medium;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #FF5733;
+  color: #F6F6F6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Separator styling */
+.separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.separator .line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #F6F6F6;
+}
+
+.separator .orText {
+  margin: 0 10px;
+  font-size: 0.9rem;
+  color: #F6F6F6;
+}
+
+/* Forgot password text */
+.forgotPasswordText {
+  font-size: 0.9rem;
+  color: #F6F6F6;
+  text-align: center;
+}
+
+/* Existing account text */
+.existingAccount {
+  font-size: 0.9rem;
+  color: #F6F6F6;
+  text-align: center;
+}
+
+.existingAccount .toggleLink {
+  background: none;
+  border: none;
+  color: #F6F6F6;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}

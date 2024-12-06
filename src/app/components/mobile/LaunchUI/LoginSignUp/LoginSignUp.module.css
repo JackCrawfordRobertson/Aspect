@@ -1,0 +1,134 @@
+/* Full screen layout with top and bottom alignment */
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Space the title and bottom content */
+  height: 100vh; /* Full-screen height */
+  padding: 0px;
+  color: #F6F6F6;
+}
+
+/* Title styling for the top */
+.title {
+  width: 100%;
+  font-size: 3.2rem;
+  font-weight: bold;
+  line-height: .8;
+  align-self: flex-start; /* Position the title at the top-left */
+  margin-top: 5em; /* Add some spacing from the top */
+  text-align: left;
+}
+
+/* Bottom content container */
+.bottomContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Align everything to the bottom */
+  align-items: center;
+  gap: 1rem; /* Add consistent spacing between elements */
+  width: 100%;
+}
+
+/* Button styling */
+.loginButton {
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: medium;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.googleButton {
+  background-color: #F6F6F6;
+  color: #646464;
+}
+
+.googleButton .icon {
+  margin-right: 10px;
+  height: 20px;
+}
+
+.createAccountButton {
+  background-color: #F6F6F6;
+  color: #646464;
+}
+
+/* Separator styling */
+.separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.separator .line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #F6F6F6;
+}
+
+.separator .orText {
+  margin: 0 10px;
+  font-size: 0.9rem;
+  color: #F6F6F6;
+}
+
+/* Terms and Privacy styling */
+.terms {
+  font-size: 0.8rem;
+  color: #F6F6F6;
+  text-align: left;
+}
+
+.terms a {
+  color: #F6F6F6;
+  text-decoration: underline;
+}
+
+.existingAccount {
+  font-size: 0.9rem;
+  color: #F6F6F6;
+  text-align: center;
+}
+
+.existingAccount a {
+  color: #F6F6F6;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Additions for smooth transitions */
+.authWrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.screenWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px) scale(0.98);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.screenWrapper.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.screenWrapper.active {
+  opacity: 1;
+  pointer-events: auto;
+}

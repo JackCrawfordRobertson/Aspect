@@ -1,0 +1,68 @@
+/* Banner container */
+.banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%; /* Full width */
+  height: 30vh; /* Default collapsed height */
+  background: #70707060; /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Add blur effect for glassy look */
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px; /* Padding for spacing */
+  box-sizing: border-box;
+  border-radius: 15px 15px 0 0;
+  transition: height 0.3s ease; /* Smooth animation for height changes */
+  overflow: hidden; /* Prevent content overflow during transition */
+}
+
+/* Expanded state */
+.banner.expanded {
+  height: 100vh; /* Full screen height */
+  border-radius: 0; /* Remove rounded corners when expanded */
+}
+
+/* Content wrapper */
+.content {
+  width: 100%;
+  max-width: 1200px; /* Optional: Center and constrain content width */
+  margin: 0 auto;
+  margin-bottom: 5em;
+  text-align: left;
+}
+
+/* Title styling */
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Description styling */
+.description {
+  font-size: 1rem;
+  margin-top: 5px;
+  line-height: 1.4;
+  color: #fff;
+}
+
+/* Circular button */
+.circleButton {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: #FF5733; /* Semi-transparent white */
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}

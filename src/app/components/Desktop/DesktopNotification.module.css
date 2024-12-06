@@ -1,0 +1,64 @@
+/* Container for the notification */
+.notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40vw;
+    height: 40vh;
+    background: #70707060; /* Semi-transparent background */
+    backdrop-filter: blur(10px); /* Glassy effect */
+    border-radius: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Grid container for two columns */
+  .gridContainer {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr; /* Two columns with a divider */
+    height: 100%; /* Take full height of the container */
+    width: 100%; /* Take full width of the container */
+    align-items: center;
+    text-align: left;
+  }
+  
+  /* Left Column Styling */
+  .leftColumn {
+    padding: 20px;
+  }
+  
+  .leftColumn h1 {
+    margin: 0 0 10px 0;
+    font-size: 2.2rem;
+    color: #fff;
+  }
+  
+  .leftColumn p {
+    font-size: 1.2rem;
+    color: #fff;
+  }
+  
+  /* Divider Styling */
+  .divider {
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 1px;
+    height: 80%; /* Adjust as needed */
+    margin: auto;
+  }
+  
+  /* Right Column Styling */
+  .rightColumn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .rightColumn span {
+    font-size: 3rem; /* Make the word larger */
+    color: #fff;
+    font-weight: bold;
+  }
