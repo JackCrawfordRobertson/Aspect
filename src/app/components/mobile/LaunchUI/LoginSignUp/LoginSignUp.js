@@ -79,10 +79,7 @@ const LoginSignUp = () => {
 
     return (
         <div className={styles.authWrapper}>
-            <h1 className={styles.title}>
-                The final <br />
-                word on what to watch.
-            </h1>
+            
 
             {/* Sign Up Screen */}
             <div className={`${styles.screenWrapper} ${viewMode === "signUp" ? styles.active : ""}`}>

@@ -1,22 +1,38 @@
 import React, { useState } from "react";
+import { logInWithEmail } from "../../../../Firebase/firebaseAuth"; // Import Firebase login function
 import styles from "./ExistingAccount.module.css";
 
 const ExistingAccount = ({ onToggleMode }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
 
-    const handleLogin = (event) => {
+    const handleLogin = async (event) => {
         event.preventDefault();
-        // Add your login logic here (e.g., Firebase auth)
-        console.log("Logging in with:", email, password);
+
+        // Clear previous messages
+        setErrorMessage("");
+        setSuccessMessage("");
+
+        try {
+            const user = await logInWithEmail(email, password);
+            console.log("Logged in successfully:", user);
+            setSuccessMessage(`Welcome back, ${user.displayName || "User"}!`);
+            // Optionally redirect or perform additional actions here
+        } catch (error) {
+            if (error.message.includes("auth/wrong-password")) {
+                setErrorMessage("Incorrect password. Please try again.");
+            } else if (error.message.includes("auth/user-not-found")) {
+                setErrorMessage("No account found with this email. Please sign up.");
+            } else {
+                setErrorMessage(`Error: ${error.message}`);
+            }
+        }
     };
 
     return (
         <div className={styles.loginContainer}>
-            <h1 className={styles.title}>
-                The final <br />
-                word on what to watch.
-            </h1>
             <div className={styles.bottomContent}>
                 <form className={styles.formContainer} onSubmit={handleLogin}>
                     <input
@@ -35,6 +51,8 @@ const ExistingAccount = ({ onToggleMode }) => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
+                    {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+                    {successMessage && <p className={styles.success}>{successMessage}</p>}
                     <button type="submit" className={styles.loginButton}>
                         Login
                     </button>

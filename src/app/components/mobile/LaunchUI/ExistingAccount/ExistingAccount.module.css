@@ -1,10 +1,10 @@
 .loginContainer {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Space the title and bottom content */
+  justify-content: flex-end; /* Push all content to the bottom */
   height: 100vh; /* Full-screen height */
-  padding: 0px;
   color: #F6F6F6;
+  box-sizing: border-box; /* Ensure padding doesn't affect height */
 }
 
 /* Title styling for the top */
@@ -19,14 +19,13 @@
 }
 
 /* Bottom content container */
+/* Bottom content container */
 .bottomContent {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Align everything to the bottom */
   align-items: center;
-  gap: 1rem; /* Add consistent spacing between elements */
+  gap: 1rem; /* Add spacing between elements */
   width: 100%;
-  padding: 0 0px; 
 }
 
 /* Form container for login inputs */
@@ -108,4 +107,33 @@
   font-weight: bold;
   text-decoration: underline;
   cursor: pointer;
+}
+
+/* Toastify notification styling */
+.Toastify__toast {
+  font-size: 1rem;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 1rem; /* Default for larger screens */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.Toastify__toast--error {
+  background-color: #ff4d4f;
+  color: #fff;
+}
+
+.Toastify__toast--success {
+  background-color: #28a745;
+  color: #fff;
+}
+
+/* Adjust top position for mobile screens */
+@media (max-width: 768px) {
+  .Toastify__toast {
+      top: 4rem; /* Push down on smaller screens */
+  }
 }

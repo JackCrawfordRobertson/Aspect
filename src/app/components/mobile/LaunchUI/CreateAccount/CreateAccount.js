@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createAccountWithEmail } from "../../../../Firebase/firebaseAuth"; // Import the updated auth function
 import styles from "../ExistingAccount/ExistingAccount.module.css"; // Reuse the same styling or create a new one
 
 const CreateAccount = ({ onToggleMode }) => {
@@ -6,29 +7,36 @@ const CreateAccount = ({ onToggleMode }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
 
-    const handleSignUp = (event) => {
+    const handleSignUp = async (event) => {
         event.preventDefault();
-        // Add your sign-up logic here (e.g., Firebase auth creation)
+
+        // Clear previous messages
+        setErrorMessage("");
+        setSuccessMessage("");
+
         if (password !== confirmPassword) {
-            console.error("Passwords do not match.");
+            setErrorMessage("Passwords do not match.");
             return;
         }
 
-        console.log("Creating account with:", {
-            name,
-            email,
-            password
-        });
-        // Proceed with account creation logic
+        try {
+            const user = await createAccountWithEmail(email, password, name);
+            setSuccessMessage("Account created successfully! Please log in.");
+            onToggleMode(); // Switch to login mode
+        } catch (error) {
+            if (error.message.includes("auth/email-already-in-use")) {
+                setErrorMessage("Email already in use. Please log in instead.");
+            } else {
+                setErrorMessage(`Error: ${error.message}`);
+            }
+        }
     };
 
     return (
         <div className={styles.loginContainer}>
-            <h1 className={styles.title}>
-                The final <br />
-                word on what to watch.
-            </h1>
             <div className={styles.bottomContent}>
                 <form className={styles.formContainer} onSubmit={handleSignUp}>
                     <input
@@ -63,6 +71,8 @@ const CreateAccount = ({ onToggleMode }) => {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                     />
+                    {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+                    {successMessage && <p className={styles.success}>{successMessage}</p>}
                     <button type="submit" className={styles.loginButton}>
                         Create Account
                     </button>
