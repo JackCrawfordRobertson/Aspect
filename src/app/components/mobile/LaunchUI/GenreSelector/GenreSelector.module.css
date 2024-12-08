@@ -1,6 +1,6 @@
 .container {
-  text-align: center;
-  padding: 20px;
+  text-align: left;
+  padding: 20px 0 20px 0;
 }
 
 .bubbleContainer {
@@ -10,16 +10,14 @@
   gap: 15px;
 }
 
-.bubble {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: orange;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.3s;
+.title {
+  width: 100%;
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: .9;
+  align-self: flex-start; /* Position the title at the top-left */
+  margin-bottom: 10px; /* Add some spacing from the top */
+  text-align: left;
 }
 
 .bubble:hover {

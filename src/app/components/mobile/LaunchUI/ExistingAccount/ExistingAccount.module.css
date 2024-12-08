@@ -26,6 +26,7 @@
   align-items: center;
   gap: 1rem; /* Add spacing between elements */
   width: 100%;
+  margin-bottom: 5em;
 }
 
 /* Form container for login inputs */

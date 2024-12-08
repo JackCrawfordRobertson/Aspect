@@ -15,7 +15,7 @@
   font-weight: bold;
   line-height: .8;
   align-self: flex-start; /* Position the title at the top-left */
-  margin-top: 5em; /* Add some spacing from the top */
+  margin-top: 3em; /* Add some spacing from the top */
   text-align: left;
 }
 
@@ -27,6 +27,7 @@
   align-items: center;
   gap: 1rem; /* Add consistent spacing between elements */
   width: 100%;
+  margin-bottom: 5em;
 }
 
 /* Button styling */
