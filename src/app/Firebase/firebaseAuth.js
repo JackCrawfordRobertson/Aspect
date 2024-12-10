@@ -27,13 +27,7 @@ export const signInWithGoogle = async () => {
         name: user.displayName,
         email: user.email,
         createdAt: new Date().toISOString(),
-        approved: false, // Pending approval
       });
-    } else {
-      const userData = docSnapshot.data();
-      if (!userData.approved) {
-        throw new Error("Your account is pending approval. Please contact support.");
-      }
     }
 
     console.log("Google Sign-In Success:", user);
@@ -58,7 +52,6 @@ export const createAccountWithEmail = async (email, password, name) => {
       name,
       email,
       createdAt: new Date().toISOString(),
-      approved: false, // Pending approval
     });
 
     console.log("Account created successfully with name:", user);
@@ -78,13 +71,10 @@ export const logInWithEmail = async (email, password) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Fetch user details from Firestore
+    // Fetch user details from Firestore (optional)
     const userDoc = await getDoc(doc(db, "users", user.uid));
     if (userDoc.exists()) {
       const userData = userDoc.data();
-      if (!userData.approved) {
-        throw new Error("Your account is pending approval. Please contact support.");
-      }
       console.log("User data from Firestore:", userData);
       return { ...user, ...userData }; // Combine Firestore data with the user object
     }
@@ -98,19 +88,6 @@ export const logInWithEmail = async (email, password) => {
       throw new Error("No account found with this email. Please sign up.");
     }
     console.error("Login Error:", error.message);
-    throw error;
-  }
-};
-
-// Admin: Approve User
-export const approveUser = async (userId) => {
-  try {
-    await updateDoc(doc(db, "users", userId), {
-      approved: true,
-    });
-    console.log("User approved successfully.");
-  } catch (error) {
-    console.error("Error approving user:", error.message);
     throw error;
   }
 };

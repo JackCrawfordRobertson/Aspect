@@ -6,16 +6,14 @@ import ExistingAccount from "../ExistingAccount/ExistingAccount";
 import CreateAccount from "../CreateAccount/CreateAccount";
 import GenreSelector from "../GenreSelector/GenreSelector";
 
-// This function renders the initial sign-up screen
 const LoginSignUp = () => {
-  const [viewMode, setViewMode] = useState("signUp");
-  // viewMode can be: "signUp", "login", "createAccount", "genreSelector"
+  const [viewMode, setViewMode] = useState("signUp"); // Tracks the current view
 
   const handleGoogleSignIn = async () => {
     try {
       const user = await signInWithGoogle();
       console.log("Google Sign-In Success:", user);
-      // After successful Google sign-in, show the GenreSelector
+      // Update the view to show the GenreSelector
       handleUserAuthenticated();
     } catch (error) {
       console.error("Error during Google Sign-In:", error.message);
@@ -34,7 +32,6 @@ const LoginSignUp = () => {
     setViewMode("createAccount");
   };
 
-  // Callback when user is authenticated
   const handleUserAuthenticated = () => {
     setViewMode("genreSelector");
   };

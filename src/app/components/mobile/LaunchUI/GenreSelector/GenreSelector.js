@@ -1,20 +1,21 @@
 "use client";
-
-import React, {useEffect, useRef, useState} from "react";
-import {auth, db} from "../../../../Firebase/firebaseConfig";
-import {doc, setDoc} from "firebase/firestore";
-import {motion} from "framer-motion";
-import {LinearProgress} from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter for navigation
+import { auth, db } from "../../../../Firebase/firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
+import { motion } from "framer-motion";
+import { LinearProgress } from "@mui/material";
 import styles from "./GenreSelector.module.css";
+import HouseFork from "../HouseFork/HouseFork"; // Import HouseFork component
 
-const GenreSelector = ({onGenresSelected}) => {
+const GenreSelector = ({ onGenresSelected }) => {
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const [showHouseFork, setShowHouseFork] = useState(false); // State to toggle between components
+  const router = useRouter();
 
-  // Base radius calculation dependent on length only
   const getBaseRadius = (genre) => {
     const baseRadius = 40;
-    const lengthFactor = Math.min(genre.length * 2, 80); 
-    // Increase radius based on title length only
+    const lengthFactor = Math.min(genre.length * 2, 80);
     return baseRadius + lengthFactor;
   };
 
@@ -161,7 +162,7 @@ const GenreSelector = ({onGenresSelected}) => {
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, [selectedGenres]);
+  }, []);
 
   const handleBubbleClick = (genre) => {
     setSelectedGenres((prev) => {
@@ -179,12 +180,12 @@ const GenreSelector = ({onGenresSelected}) => {
     try {
       const userId = auth.currentUser?.uid;
       if (!userId) throw new Error("No user is logged in.");
-      // This will store the selectedGenres array in the user's doc within the "users" collection
-      // It's merged with any existing data (like name, email, etc.) for that user.
       const userRef = doc(db, "users", userId);
-      await setDoc(userRef, {selectedGenres}, {merge: true});
+      await setDoc(userRef, { selectedGenres }, { merge: true });
       console.log("Genres saved successfully!");
-      if (onGenresSelected) onGenresSelected();
+
+      // Show HouseFork component after saving data
+      setShowHouseFork(true);
     } catch (error) {
       console.error("Error saving genres:", error.message);
     }
@@ -192,14 +193,27 @@ const GenreSelector = ({onGenresSelected}) => {
 
   const progressValue = (selectedGenres.length / 3) * 100;
 
+  // Render HouseFork if state is toggled
+  if (showHouseFork) {
+    return <HouseFork />;
+  }
+
   return (
-    <div className={styles.container} style={{display: "flex", flexDirection: "column", height: "100%", overflow: "hidden"}}>
+    <div
+      className={styles.container}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        overflow: "hidden",
+      }}
+    >
       <h1 className={styles.title}>Pick Your Movie Vibes.</h1>
       <p>
         Click on the genres that match your mood. Love a romcom? Crave a thriller? Let’s set the tone for your
         perfect movie night.
       </p>
-      <p style={{marginBottom: "10px", marginTop: "10px"}}>
+      <p style={{ marginBottom: "10px", marginTop: "10px" }}>
         <span
           style={{
             fontWeight: "bold",
@@ -208,8 +222,8 @@ const GenreSelector = ({onGenresSelected}) => {
           }}
         >
           {selectedGenres.length}
-        </span>
-        <span style={{color: "inherit", fontWeight: "600"}}> Picked of 3</span>
+        </span>{" "}
+        <span style={{ color: "inherit", fontWeight: "600" }}>Picked of 3</span>
       </p>
       <LinearProgress
         variant="determinate"
@@ -224,9 +238,8 @@ const GenreSelector = ({onGenresSelected}) => {
             borderRadius: "5px",
           },
         }}
-        style={{marginBottom: "20px"}}
+        style={{ marginBottom: "20px" }}
       />
-
       <div
         ref={containerRef}
         style={{
@@ -240,7 +253,7 @@ const GenreSelector = ({onGenresSelected}) => {
         {bubbles.map((bubble) => {
           const isSelected = selectedGenres.includes(bubble.genre);
           const radius = getBaseRadius(bubble.genre);
-          const scale = isSelected ? 1.2 : 1; // Scale transitions handled by framer-motion
+          const scale = isSelected ? 1.2 : 1;
 
           return (
             <motion.div
@@ -267,7 +280,7 @@ const GenreSelector = ({onGenresSelected}) => {
               animate={{
                 x: bubble.x - radius,
                 y: bubble.y - radius,
-                scale: scale
+                scale: scale,
               }}
               transition={{ type: "spring", stiffness: 50, damping: 10 }}
               whileHover={{ scale: scale * 1.05 }}
@@ -286,10 +299,10 @@ const GenreSelector = ({onGenresSelected}) => {
           padding: "10px 20px",
           border: "none",
           borderRadius: "10px",
-          background: selectedGenres.length === 3 ? "#D8612F" : "#F6F6F6" ,
+          background: selectedGenres.length === 3 ? "#D8612F" : "#F6F6F6",
           color: selectedGenres.length === 3 ? "#F6F6F6" : "#CCCCCC",
           cursor: selectedGenres.length === 3 ? "pointer" : "not-allowed",
-          outline: "none"
+          outline: "none",
         }}
       >
         Confirm Selection
