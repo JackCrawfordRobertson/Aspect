@@ -37,11 +37,9 @@ const CreateAccount = ({ onToggleMode, onUserAuthenticated }) => {
   };
 
   return (
-    <div className={styles.loginContainer}>
+    <div className={styles.loginContainerCreate}>
 
-<div className={styles.topContent} style={{ textAlign: 'left', marginBottom:'2em' }}>
-      <h1 style={{ margin: '0 auto' }}>Let's Get Started</h1>
-    </div>
+<h1 className={styles.title}>Let's Get Started</h1>
       <div className={styles.bottomContent}>
         <form className={styles.formContainer} onSubmit={handleSignUp}>
           <input

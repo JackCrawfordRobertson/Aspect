@@ -1,11 +1,25 @@
 .loginContainer {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Push all content to the bottom */
+  justify-content: center;
+  align-items: flex-start;
   height: 100vh; /* Full-screen height */
   color: #F6F6F6;
   box-sizing: border-box; /* Ensure padding doesn't affect height */
+  gap: 25rem; /* Add spacing between elements */
 }
+
+.loginContainerCreate {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh; /* Full-screen height */
+  color: #F6F6F6;
+  box-sizing: border-box; /* Ensure padding doesn't affect height */
+  gap: 20rem; /* Add spacing between elements */
+}
+
 
 /* Title styling for the top */
 .title {
@@ -14,7 +28,6 @@
   font-weight: bold;
   line-height: 0.8;
   align-self: flex-start; /* Position the title at the top-left */
-  margin-top: 5em; /* Add some spacing from the top */
   text-align: left;
 }
 
@@ -26,7 +39,6 @@
   align-items: center;
   gap: 1rem; /* Add spacing between elements */
   width: 100%;
-  margin-bottom: 5em;
 }
 
 /* Form container for login inputs */

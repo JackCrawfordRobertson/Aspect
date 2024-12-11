@@ -2,10 +2,12 @@
 .loginContainer {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Space the title and bottom content */
+  justify-content: center;
+  align-items: flex-start;
   height: 100vh; /* Full-screen height */
   padding: 0px;
   color: #F6F6F6;
+  gap: 25rem; /* Add consistent spacing between elements */
 }
 
 /* Title styling for the top */
@@ -15,7 +17,6 @@
   font-weight: bold;
   line-height: .8;
   align-self: flex-start; /* Position the title at the top-left */
-  margin-top: 3em; /* Add some spacing from the top */
   text-align: left;
 }
 
@@ -27,7 +28,6 @@
   align-items: center;
   gap: 1rem; /* Add consistent spacing between elements */
   width: 100%;
-  margin-bottom: 5em;
 }
 
 /* Button styling */

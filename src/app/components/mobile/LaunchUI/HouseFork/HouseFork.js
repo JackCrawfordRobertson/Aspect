@@ -20,13 +20,13 @@ const HouseFork = () => {
 
   const renderWelcomeScreen = () => (
     <div className={styles.container}>
-      <h1 className={styles.title}>Welcome to Movie Picker!</h1>
-      <p className={styles.description}>
-        Join a house with your housemates or create one to get started.
-      </p>
+      <div className={styles.textGroup}>
+        <h1 className={styles.title}>Your House, Your Rules.</h1>
+        <p>Whether you’re hopping in or taking charge, it’s time to settle movie night, once and for all.</p>
+      </div>
       <div className={styles.buttonGroup}>
         <button className={styles.actionButton} onClick={handleCreateHouse}>
-          Create a sssss
+          Create a House
         </button>
         <button className={styles.actionButton} onClick={handleJoinHouse}>
           Join a House
@@ -37,39 +37,48 @@ const HouseFork = () => {
 
   const renderCreateHouseScreen = () => (
     <div className={styles.container}>
-      <h1 className={styles.title}>Create a House</h1>
-      <p className={styles.description}>Give your house a name and invite your housemates.</p>
-      <form className={styles.form}>
-        <input
-          className={styles.inputField}
-          type="text"
-          placeholder="Enter house name"
-        />
-        <button className={styles.actionButton}>Create</button>
-      </form>
-      <button className={styles.backButton} onClick={handleGoBack}>
-        Back
-      </button>
+      <div className={styles.textGroup}>
+        <h1 className={styles.title}>Create a House</h1>
+        <p className={styles.description}>Give your house a name and invite your housemates.</p>
+      </div>
+      <div className={styles.formGroup}>
+        <form className={styles.form}>
+          <input
+            className={styles.inputField}
+            type="text"
+            placeholder="Enter house name"
+          />
+          <button className={styles.actionButton}>Create</button>
+          <button className={styles.backButton} onClick={handleGoBack}>
+            Back
+          </button>
+        </form>
+      </div>
     </div>
   );
 
+  
   const renderJoinHouseScreen = () => (
     <div className={styles.container}>
-      <h1 className={styles.title}>Join a House</h1>
-      <p className={styles.description}>
-        Enter the invite code from your housemates to join their house.
-      </p>
-      <form className={styles.form}>
-        <input
-          className={styles.inputField}
-          type="text"
-          placeholder="Enter invite code"
-        />
-        <button className={styles.actionButton}>Join</button>
-      </form>
-      <button className={styles.backButton} onClick={handleGoBack}>
-        Back
-      </button>
+      <div className={styles.textGroup}>
+        <h1 className={styles.title}>Join a House</h1>
+        <p className={styles.description}>
+          Enter the invite code from your housemates to join their house.
+        </p>
+      </div>
+      <div className={styles.formGroup}>
+        <form className={styles.form}>
+          <input
+            className={styles.inputField}
+            type="text"
+            placeholder="Enter invite code"
+          />
+          <button className={styles.actionButton}>Join</button>
+        </form>
+        <button className={styles.backButton} onClick={handleGoBack}>
+          Back
+        </button>
+      </div>
     </div>
   );
 
