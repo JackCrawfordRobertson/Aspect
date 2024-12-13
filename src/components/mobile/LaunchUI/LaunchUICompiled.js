@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LoginSignUp from "../LaunchUI/LoginSignUp/LoginSignUp";
+import LoginSignUp from "./LoginSignUp/LoginSignUp";
 import styles from "./LaunchUICompiled.module.css";
 
 const LaunchUICompiled = () => {

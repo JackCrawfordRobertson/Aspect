@@ -5,7 +5,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 40vw;
-    height: 40vh;
+    height: 40svh;
     background: #70707060; /* Semi-transparent background */
     backdrop-filter: blur(10px); /* Glassy effect */
     border-radius: 15px;

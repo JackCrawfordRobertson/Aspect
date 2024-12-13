@@ -3,10 +3,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  height: 100vh; /* Full-screen height */
+  height: 100svh; /* Full-screen height */
   color: #F6F6F6;
   box-sizing: border-box; /* Ensure padding doesn't affect height */
-  gap: 25rem; /* Add spacing between elements */
+  gap: 15rem; /* Add spacing between elements */
 }
 
 .loginContainerCreate {
@@ -14,10 +14,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  height: 100vh; /* Full-screen height */
+  height: 100svh; /* Full-screen height */
   color: #F6F6F6;
   box-sizing: border-box; /* Ensure padding doesn't affect height */
-  gap: 20rem; /* Add spacing between elements */
+  gap: 10rem; /* Add spacing between elements */
 }
 
 

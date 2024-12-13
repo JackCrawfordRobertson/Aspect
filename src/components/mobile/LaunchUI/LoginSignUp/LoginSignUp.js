@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { signInWithGoogle } from "../../../../Firebase/firebaseAuth";
+import { signInWithGoogle } from "../../../../app/Firebase/firebaseAuth";
 import styles from "./LoginSignUp.module.css";
 import ExistingAccount from "../ExistingAccount/ExistingAccount";
 import CreateAccount from "../CreateAccount/CreateAccount";

@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  height: 100svh;
   color: #f6f6f6;
 }
 
@@ -14,9 +14,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 25rem;
+  gap: 15rem;
   text-align: left;
-  height: 100vh;
+  height: 100svh;
+}
+
+.containerCreateHouse {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10rem;
+  text-align: left;
+  height: 100svh;
 }
 
 .textGroup {
@@ -72,7 +82,7 @@
   padding: 10px 20px;
   font-size: 1rem;
   background-color: #f6f6f6;
-  color: #D8612F;
+  color: #646464;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -106,4 +116,61 @@
   border-radius: 8px;
   background: #ffffff;
   color: #333333;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.separator .line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #F6F6F6;
+}
+
+.separator .orText {
+  margin: 0 10px;
+  font-size: 0.9rem;
+  color: #F6F6F6;
+}
+
+.laterButtion{
+
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 400;
+  background-color: #F6F6F6;
+  color: #646464;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.separator .line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #F6F6F6;
+}
+
+.separator .orText {
+  margin: 0 10px;
+  font-size: 0.9rem;
+  color: #F6F6F6;
+}
+
+.whiteButtion {
+  background-color: #F6F6F6;
+  color: #646464;
 }

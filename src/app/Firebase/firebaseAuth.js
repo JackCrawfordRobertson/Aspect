@@ -49,10 +49,12 @@ export const createAccountWithEmail = async (email, password, name) => {
 
     // Save user profile to Firestore
     await setDoc(doc(db, "users", user.uid), {
-      name,
-      email,
-      createdAt: new Date().toISOString(),
-    });
+  name: user.displayName || name,
+  email: user.email,
+  createdAt: new Date().toISOString(),
+  houses: [], // Stores IDs of houses the user is part of
+  filmCategories: [], // Favourite film categories
+});
 
     console.log("Account created successfully with name:", user);
     return user; // Return user for further processing

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { createAccountWithEmail } from "../../../../Firebase/firebaseAuth"; 
+import { createAccountWithEmail } from "../../../../app/Firebase/firebaseAuth"; 
 import styles from "../ExistingAccount/ExistingAccount.module.css"; 
 
 const CreateAccount = ({ onToggleMode, onUserAuthenticated }) => {

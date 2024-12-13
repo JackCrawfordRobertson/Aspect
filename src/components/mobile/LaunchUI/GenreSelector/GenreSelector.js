@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation"; // Import useRouter for navigation
-import { auth, db } from "../../../../Firebase/firebaseConfig";
+import { auth, db } from "../../../../app/Firebase/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { motion } from "framer-motion";
 import { LinearProgress } from "@mui/material";
 import styles from "./GenreSelector.module.css";
-import HouseFork from "../HouseFork/HouseFork"; // Import HouseFork component
+import HouseFork from "../HouseFork/HouseForkLogic"; // Import HouseFork component
 
 const GenreSelector = ({ onGenresSelected }) => {
   const [selectedGenres, setSelectedGenres] = useState([]);

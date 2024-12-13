@@ -4,10 +4,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  height: 100vh; /* Full-screen height */
+  height: 100svh; /* Full-screen height */
   padding: 0px;
   color: #F6F6F6;
-  gap: 25rem; /* Add consistent spacing between elements */
+  gap: 15rem; /* Add consistent spacing between elements */
 }
 
 /* Title styling for the top */
@@ -107,7 +107,7 @@
 .authWrapper {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100svh;
   overflow: hidden;
 }
 
