@@ -1,6 +1,6 @@
 // pages/index.js or app/page.js
 
-"use client"; // Add this if you're using Next.js 13 App Router
+"use client"; 
 
 import React from "react";
 import styles from "./styles/page.module.css";

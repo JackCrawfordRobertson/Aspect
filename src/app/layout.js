@@ -17,14 +17,19 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning // Prevent hydration mismatch warnings
+      className={`${inter.variable}`} // Ensures consistent font styles
+    >
       <body>
-      <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+        {/* Server-rendered layout */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <AuthProvider>{children}</AuthProvider>
         </ThemeProvider>
       </body>

@@ -5,8 +5,10 @@ import HomePage from "./Home/HomePage";
 import SearchPage from "./Search/SearchPage";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/ModeToggle";
-import { Home, Search, House } from "lucide-react"; // Import icons
+import { Film, Search, House, } from "lucide-react"; // Import icons
 import { motion, AnimatePresence } from "framer-motion"; // Import Framer Motion
+
+
 
 const MainNavigation = () => {
   const [activeTab, setActiveTab] = useState("home");
@@ -57,8 +59,8 @@ const MainNavigation = () => {
           size="sm"
           onClick={() => setActiveTab("home")}
         >
-          <Home className="mr-2 h-4 w-4" />
-          Home
+          <Film className="mr-2 h-4 w-4" />
+          Films
         </Button>
         <Button
           variant={activeTab === "search" ? "default" : "ghost"}

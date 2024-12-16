@@ -15,6 +15,7 @@ html {
   font-family: var(--font-family);
 }
 
+
 @layer base {
   :root {
     --background: #ffffff; /* Light mode background */
@@ -87,16 +88,3 @@ html {
   }
 }
 
-/* Glass Effect for Body */
-body::after {
-  content: "";
-  position: fixed; /* Cover the entire viewport */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(211, 211, 211, 0.3); /* Semi-transparent grey */
-  backdrop-filter: blur(10px); /* Add glassy blur effect */
-  pointer-events: none;
-  z-index: -1;
-}

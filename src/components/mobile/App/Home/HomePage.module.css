@@ -36,3 +36,29 @@
   .button:hover {
     background-color: #0056b3; /* Darker blue on hover */
   }
+
+
+  /* Custom styles for Swiper pagination dots */
+.swiper-pagination-bullet {
+  background: #ddd; /* Default background */
+  width: 12px;
+  height: 12px;
+  opacity: 0.6;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background: linear-gradient(
+      90deg,
+      #ff5733,
+      #ffc300,
+      #28b463,
+      #2874a6,
+      #af7ac5,
+      #e74c3c,
+      #f39c12,
+      #1abc9c
+  ); /* Gradient for active dot */
+  transform: scale(1.2); /* Slightly larger for active */
+  opacity: 1; /* Fully visible */
+}

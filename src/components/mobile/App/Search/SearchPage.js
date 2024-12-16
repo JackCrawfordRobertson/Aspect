@@ -39,10 +39,10 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="p-6 bg-background" style={{ minHeight: "100vh" }}>
+    <div className="p-6 bg-background" style={{ minHeight: "100%" }}>
             <div className="mb-6 p-0  rounded">
                 <h1>Search</h1>
-                <p className="mt-2 text-gray-600">
+                <p className="mt-2 text-gray-600 dark:text-white leading-5 ">
                 Use the search bar to find movies in your collection.
                 </p>
             </div>
@@ -79,7 +79,7 @@ const SearchPage = () => {
                 <img
                   src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                   alt={movie.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-100 object-cover"
                 />
                 <div className="p-3">
                   <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
@@ -108,7 +108,7 @@ const SearchPage = () => {
             <img
               src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
               alt={movie.title}
-              className="w-full h-48 object-cover"
+              className="w-full h-100 object-cover"
             />
             <div className="p-3">
               <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
