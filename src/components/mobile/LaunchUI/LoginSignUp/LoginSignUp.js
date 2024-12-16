@@ -8,12 +8,12 @@ import GenreSelector from "../GenreSelector/GenreSelector";
 
 const LoginSignUp = () => {
   const [viewMode, setViewMode] = useState("signUp"); // Tracks the current view
+  const [disableGenreSelector, setDisableGenreSelector] = useState(false); // New state
 
   const handleGoogleSignIn = async () => {
     try {
       const user = await signInWithGoogle();
       console.log("Google Sign-In Success:", user);
-      // Update the view to show the GenreSelector
       handleUserAuthenticated();
     } catch (error) {
       console.error("Error during Google Sign-In:", error.message);
@@ -22,18 +22,26 @@ const LoginSignUp = () => {
 
   const handleToggleToLogin = () => {
     setViewMode("login");
+    setDisableGenreSelector(true); // Disable GenreSelector for login
   };
 
   const handleToggleToSignUp = () => {
     setViewMode("signUp");
+    setDisableGenreSelector(false); // Ensure GenreSelector is enabled for sign up
   };
 
   const handleToggleToCreate = () => {
     setViewMode("createAccount");
+    setDisableGenreSelector(false); // Ensure GenreSelector is enabled for account creation
   };
 
   const handleUserAuthenticated = () => {
-    setViewMode("genreSelector");
+    if (!disableGenreSelector) {
+      setViewMode("genreSelector");
+    } else {
+      // If GenreSelector is disabled, redirect or perform another action
+      console.log("GenreSelector is disabled for this flow.");
+    }
   };
 
   const renderSignUpScreen = () => (
@@ -107,9 +115,11 @@ const LoginSignUp = () => {
       </div>
 
       {/* Genre Selector Screen */}
-      <div className={`${styles.screenWrapper} ${viewMode === "genreSelector" ? styles.active : ""}`}>
-        <GenreSelector />
-      </div>
+      {!disableGenreSelector && (
+        <div className={`${styles.screenWrapper} ${viewMode === "genreSelector" ? styles.active : ""}`}>
+          <GenreSelector />
+        </div>
+      )}
     </div>
   );
 };

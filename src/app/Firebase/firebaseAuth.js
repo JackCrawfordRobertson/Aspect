@@ -41,23 +41,28 @@ export const signInWithGoogle = async () => {
 // Create Account with Email/Password
 export const createAccountWithEmail = async (email, password, name) => {
   try {
+    // Create the user with email and password
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Update the user's profile to include the name
-    await updateProfile(user, { displayName: name });
+    // Generate a random avatar using DiceBear API
+    const randomAvatarUrl = `https://api.dicebear.com/6.x/bottts/svg?seed=${name || email.split("@")[0]}`;
 
-    // Save user profile to Firestore
+    // Update the user's Firebase profile to include their name and avatar
+    await updateProfile(user, { displayName: name, photoURL: randomAvatarUrl });
+
+    // Save the user's profile data to Firestore
     await setDoc(doc(db, "users", user.uid), {
-  name: user.displayName || name,
-  email: user.email,
-  createdAt: new Date().toISOString(),
-  houses: [], // Stores IDs of houses the user is part of
-  filmCategories: [], // Favourite film categories
-});
+      name: name,
+      email: email,
+      profilePicture: randomAvatarUrl, // Save the generated avatar URL
+      createdAt: new Date().toISOString(),
+      houses: [], // Initialize with no houses
+      filmCategories: [], // Initialize with no favourite film categories
+    });
 
-    console.log("Account created successfully with name:", user);
-    return user; // Return user for further processing
+    console.log("Account created successfully with DiceBear avatar:", user);
+    return user; // Return the user for further processing
   } catch (error) {
     if (error.code === "auth/email-already-in-use") {
       throw new Error("This email is already in use. Please log in instead.");

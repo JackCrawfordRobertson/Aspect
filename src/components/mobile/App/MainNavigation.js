@@ -1,17 +1,29 @@
 "use client";
 
 import React, { useState } from "react";
-import HomePage from "./Home/HomePage";
+import { useRouter } from "next/navigation"; // For redirection
+import { useAuth } from "../../../app/Firebase/authContext"; // Use the custom hook
+import HomePage from "./Films/HomePage";
 import SearchPage from "./Search/SearchPage";
+import MyHome from "./Home/MyHouse";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/ModeToggle";
-import { Film, Search, House, } from "lucide-react"; // Import icons
-import { motion, AnimatePresence } from "framer-motion"; // Import Framer Motion
-
-
+import { Film, Search, House } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const MainNavigation = () => {
+  const { user, loading } = useAuth(); // Access user and loading state
   const [activeTab, setActiveTab] = useState("home");
+  const router = useRouter();
+
+  if (loading) {
+    return <div>Loading...</div>; // Optionally render a spinner while loading
+  }
+
+  if (!user) {
+    router.push("/login"); // Redirect to login if not authenticated
+    return null;
+  }
 
   const renderActivePage = () => {
     switch (activeTab) {
@@ -20,12 +32,7 @@ const MainNavigation = () => {
       case "search":
         return <SearchPage />;
       case "myHouse":
-        return (
-          <div className="p-6">
-            <h1 className="text-lg font-bold">My House</h1>
-            <p>Manage your house settings here.</p>
-          </div>
-        );
+        return <MyHome />;
       default:
         return <HomePage />;
     }
@@ -33,11 +40,10 @@ const MainNavigation = () => {
 
   return (
     <div className="flex flex-col h-screen relative">
-      {/* Render the active page */}
       <div className="flex-1 overflow-y-auto relative">
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeTab} // Use the activeTab as the key to trigger transitions
+            key={activeTab}
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
@@ -48,11 +54,6 @@ const MainNavigation = () => {
           </motion.div>
         </AnimatePresence>
       </div>
-
-      {/* Glassy Overlay */}
-      <div className="absolute inset-x-0 bottom-0 w-full h-30 bg-[#70707060] backdrop-blur-md rounded-t-lg z-10 pointer-events-none"></div>
-
-      {/* Custom Shadcn Navbar */}
       <nav className="flex justify-around items-center p-4 border-t bg-white shadow dark:bg-gray-900 relative z-20">
         <Button
           variant={activeTab === "home" ? "default" : "ghost"}
@@ -78,7 +79,6 @@ const MainNavigation = () => {
           <House className="mr-2 h-4 w-4" />
           My House
         </Button>
-        {/* Add ModeToggle */}
         <ModeToggle />
       </nav>
     </div>
