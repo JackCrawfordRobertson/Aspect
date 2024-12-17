@@ -15,7 +15,7 @@ const LaunchUICompiled = () => {
         {!isExpanded ? (
           <>
             {/* Landing Screen Content */}
-            <h1 className={styles.title}>Aspect</h1>
+            <div className={styles.title}>Aspect</div>
             <p className={styles.description}>
               Your house, your movies, no arguments. Aspect is the app that makes choosing tonight’s film as easy as hitting play. Plan it, vote on it, and settle in together.
             </p>

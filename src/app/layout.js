@@ -5,14 +5,17 @@ import { AuthProvider } from "./Firebase/authContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
+// Separate viewport configuration
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#FF5733", // Your primary colour
+};
+
+// Metadata for title and description
 export const metadata = {
   title: "Aspect",
   description: "End the movie-night standoff. Pick, plan, and play – together.",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    themeColor: "#FF5733", // Your primary colour
-  },
 };
 
 export default function RootLayout({ children }) {

@@ -46,10 +46,10 @@ const LoginSignUp = () => {
 
   const renderSignUpScreen = () => (
     <div className={styles.loginContainer}>
-      <h1 className={styles.title}>
+      <div className={styles.title}>
         The final <br />
         word on what to watch.
-      </h1>
+      </div>
       <div className={styles.bottomContent}>
         <button
           className={`${styles.loginButton} ${styles.googleButton}`}

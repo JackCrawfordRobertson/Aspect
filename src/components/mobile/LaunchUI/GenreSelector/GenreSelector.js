@@ -23,11 +23,8 @@ const GenreSelector = ({ onGenresSelected }) => {
     "Film Noir",
     "Art House",
     "Dark Comedy",
-    "Post-Apocalyptic",
     "Coming-of-Age",
-    "Found Footage",
-    "Social Realism",
-    "Tech Thriller",
+    "Thriller",
   ];
 
   const [bubbles, setBubbles] = useState(() =>

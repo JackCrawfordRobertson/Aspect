@@ -39,7 +39,7 @@ const CreateAccount = ({ onToggleMode, onUserAuthenticated }) => {
   return (
     <div className={styles.loginContainerCreate}>
 
-<h1 className={styles.title}>Let's Get Started</h1>
+<div className={styles.title}>Let's Get Started</div>
       <div className={styles.bottomContent}>
         <form className={styles.formContainer} onSubmit={handleSignUp}>
           <input

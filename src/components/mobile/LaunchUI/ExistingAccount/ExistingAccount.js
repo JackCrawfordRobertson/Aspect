@@ -39,7 +39,7 @@ const ExistingAccount = ({ onToggleMode, onUserAuthenticated }) => {
 
   return (
     <div className={styles.loginContainer}>
-      <h1 className={styles.title}>Let's get Logged in</h1>
+      <div className={styles.title}>Let's get Logged in</div>
       <div className={styles.bottomContent}>
         <form className={styles.formContainer} onSubmit={handleLogin}>
           <input

@@ -18,6 +18,7 @@
   line-height: .8;
   align-self: flex-start; /* Position the title at the top-left */
   text-align: left;
+color: #F6F6F6;
 }
 
 /* Bottom content container */

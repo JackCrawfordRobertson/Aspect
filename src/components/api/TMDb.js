@@ -3,8 +3,8 @@ import axios from "axios";
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY; // Access the environment variable
 const BASE_URL = "https://api.themoviedb.org/3";
 
-console.log("TMDB API Key:", TMDB_API_KEY);
-console.log(`${BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}&language=en-UK&page=1`);
+// console.log("TMDB API Key:", TMDB_API_KEY);
+// console.log(`${BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}&language=en-UK&page=1`);
 
 export const fetchPopularMovies = async () => {
   try {

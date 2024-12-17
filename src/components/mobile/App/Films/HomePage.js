@@ -55,10 +55,7 @@ const HomePage = () => {
                                 delay: 3000, // Auto-scroll every 3 seconds
                                 disableOnInteraction: false, // Keep autoplay on user interaction
                             }}
-                            pagination={{
-                                clickable: true, // Enable clickable pagination dots
-                                dynamicBullets: true, // Responsive bullets
-                            }}
+                          
                             breakpoints={{
                                 640: { slidesPerView: 2 }, // Adjust for smaller screens
                                 768: { slidesPerView: 3 }, // Default for larger screens
@@ -67,7 +64,7 @@ const HomePage = () => {
                         >
                             {movies.map((movie) => (
                                 <SwiperSlide key={movie.id}>
-                                    <div className="bg-white dark:bg-gray-800 shadow-lg rounded-md mb-8 overflow-hidden">
+                                    <div className="bg-white dark:bg-gray-800 shadow-lg rounded-md mb-2 overflow-hidden">
                                         <img
                                             src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                                             alt={movie.title}

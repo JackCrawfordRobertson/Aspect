@@ -39,7 +39,8 @@ const MainNavigation = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen relative">
+    <div className="flex flex-col min-h-[100svh]">
+      {/* Main content area */}
       <div className="flex-1 overflow-y-auto relative">
         <AnimatePresence mode="wait">
           <motion.div
@@ -54,7 +55,9 @@ const MainNavigation = () => {
           </motion.div>
         </AnimatePresence>
       </div>
-      <nav className="flex justify-around items-center p-4 border-t bg-white shadow dark:bg-gray-900 relative z-20">
+
+      {/* Bottom navigation */}
+      <nav className="flex justify-around items-center p-4 border-t bg-white shadow dark:bg-gray-900 z-10">
         <Button
           variant={activeTab === "home" ? "default" : "ghost"}
           size="sm"

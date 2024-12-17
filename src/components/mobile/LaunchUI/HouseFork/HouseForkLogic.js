@@ -8,15 +8,16 @@ import HouseForkUi from "./HouseForkUi";
 const HouseForkLogic = () => {
   const [viewMode, setViewMode] = useState("welcome");
   const [houseName, setHouseName] = useState("");
-  const [description, setDescription] = useState(""); // New field for house description
+  const [description, setDescription] = useState("");
   const [inviteCode, setInviteCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState(null);
 
-  const { user } = useAuth(); // Get logged-in user info
+  const { user } = useAuth();
 
   const handleGoBack = () => {
     setViewMode("welcome");
+    setFeedback(null); // Reset feedback when going back
   };
 
   const handleCreateSubmit = async (e) => {
@@ -30,10 +31,13 @@ const HouseForkLogic = () => {
     setFeedback(null);
 
     try {
-      const { houseId, inviteCode } = await createHouse(houseName, description, user.uid);
-      setFeedback(`House created successfully! Invite code: ${inviteCode}`);
-      setHouseName("");
-      setDescription(""); // Clear description after submission
+      const { houseId, inviteCode } = await createHouse(
+        houseName,
+        description,
+        user.uid
+      );
+      setInviteCode(inviteCode); // Update the invite code state
+      setFeedback("House created successfully!");
     } catch (error) {
       setFeedback("Failed to create house. Please try again.");
     } finally {
@@ -41,22 +45,23 @@ const HouseForkLogic = () => {
     }
   };
 
-  const handleJoinSubmit = async (e) => {
-    e.preventDefault();
+  const handleJoinSubmit = async () => {
     if (!inviteCode.trim()) {
       setFeedback("Please enter an invite code.");
-      return;
+      return false; // Return false for failure
     }
-
+  
     setLoading(true);
     setFeedback(null);
-
+  
     try {
-      const houseId = await joinHouse(inviteCode, user.uid);
+      await joinHouse(inviteCode, user.uid);
       setFeedback("Joined house successfully!");
       setInviteCode("");
+      return true; // Return true for success
     } catch (error) {
       setFeedback("Failed to join house. Invalid invite code.");
+      return false; // Return false for failure
     } finally {
       setLoading(false);
     }
@@ -68,9 +73,9 @@ const HouseForkLogic = () => {
       setViewMode={setViewMode}
       houseName={houseName}
       setHouseName={setHouseName}
-      description={description} // Pass description
-      setDescription={setDescription} // Add setter for description
-      inviteCode={inviteCode}
+      description={description}
+      setDescription={setDescription}
+      inviteCode={inviteCode} // Pass updated invite code
       setInviteCode={setInviteCode}
       handleCreateSubmit={handleCreateSubmit}
       handleJoinSubmit={handleJoinSubmit}

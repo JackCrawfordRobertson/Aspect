@@ -18,6 +18,8 @@
   align-self: flex-start; /* Position the title at the top-left */
   margin-bottom: 10px; /* Add some spacing from the top */
   text-align: left;
+  color: #F6F6F6;
+
 }
 
 .bubble:hover {
