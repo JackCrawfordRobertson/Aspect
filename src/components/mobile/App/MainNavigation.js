@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // For redirection
 import { useAuth } from "../../../app/Firebase/authContext"; // Use the custom hook
-import HomePage from "./Films/HomePage";
+import Films from "./Films/Films";
 import SearchPage from "./Search/SearchPage";
-import MyHome from "./Home/MyHouse";
+import MyHouse from "./MyHouse/MyHouse";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/ModeToggle";
 import { Film, Search, House } from "lucide-react";
@@ -28,11 +28,11 @@ const MainNavigation = () => {
   const renderActivePage = () => {
     switch (activeTab) {
       case "home":
-        return <HomePage />;
+        return <Films />;
       case "search":
         return <SearchPage />;
       case "myHouse":
-        return <MyHome />;
+        return <MyHouse />;
       default:
         return <HomePage />;
     }
@@ -57,7 +57,7 @@ const MainNavigation = () => {
       </div>
 
       {/* Bottom navigation */}
-      <nav className="flex justify-around items-center p-4 border-t bg-white shadow dark:bg-gray-900 z-10">
+      <nav className="flex justify-around items-center p-4 border-t bg-white shadow dark:bg-zinc-900 z-10">
         <Button
           variant={activeTab === "home" ? "default" : "ghost"}
           size="sm"

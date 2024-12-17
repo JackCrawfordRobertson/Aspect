@@ -5,28 +5,34 @@ import { AuthProvider } from "./Firebase/authContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
-// Separate viewport configuration
+// Viewport Configuration
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#FF5733", // Your primary colour
+  themeColor: "#FF5733",
 };
 
-// Metadata for title and description
+// Metadata Configuration for Favicons and SEO
 export const metadata = {
   title: "Aspect",
   description: "End the movie-night standoff. Pick, plan, and play – together.",
+  icons: {
+    icon: [
+      { url: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      suppressHydrationWarning // Prevent hydration mismatch warnings
-      className={`${inter.variable}`} // Ensures consistent font styles
+      suppressHydrationWarning
+      className={`${inter.variable}`}
     >
       <body>
-        {/* Server-rendered layout */}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

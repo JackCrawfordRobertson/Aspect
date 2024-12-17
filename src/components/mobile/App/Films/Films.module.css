@@ -1,0 +1,104 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0px;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+}
+
+.h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #333; /* Dark grey for titles */
+}
+
+.p {
+    font-size: 16px;
+    color: #666; /* Medium grey for text */
+    margin-bottom: 24px;
+}
+
+.button {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff; /* Blue background */
+    color: #fff; /* White text */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+:root {
+    --gradient-shadow: linear-gradient(
+        45deg,
+        "0 0 10px 1px rgba(255, 87, 51, 0.8)",
+        "0 0 10px 1px rgba(255, 195, 0, 0.8)",
+        "0 0 10px 1px rgba(40, 180, 99, 0.8)",
+        "0 0 10px 1px rgba(40, 116, 166, 0.8)",
+        "0 0 10px 1px rgba(175, 122, 197, 0.8)",
+        "0 0 10px 1px rgba(231, 76, 60, 0.8)",
+        "0 0 10px 1px rgba(243, 156, 18, 0.8)",
+        "0 0 10px 1px rgba(26, 188, 156, 0.8)",
+        "0 0 10px 1px rgba(255, 87, 51, 0.8)"
+    );
+}
+body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.shadow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: #fff;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    width: 400px;
+    height: 250px;
+    background: linear-gradient(0deg, #000, #262626);
+}
+.shadow:before,
+.shadow:after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background: var(--gradient-shadow);
+    background-size: 400%;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    z-index: -1;
+    animation: animate 20s linear infinite;
+}
+
+.shadow:after {
+    filter: blur(20px);
+}
+
+@keyframes animate {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 300% 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}

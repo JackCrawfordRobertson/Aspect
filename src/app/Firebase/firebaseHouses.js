@@ -99,3 +99,23 @@ export const subscribeToMessages = (houseId, callback) => {
     callback(messages);
   });
 };
+
+// Fetch user details for each member ID
+export const fetchHouseMembers = async (memberIds) => {
+  try {
+    const memberDetails = await Promise.all(
+      memberIds.map(async (userId) => {
+        const userRef = doc(db, "users", userId);
+        const userSnap = await getDoc(userRef);
+        return userSnap.exists()
+          ? { id: userId, ...userSnap.data() }
+          : { id: userId, name: "Unknown User", profilePicture: "/default-avatar.jpg" };
+      })
+    );
+
+    return memberDetails;
+  } catch (error) {
+    console.error("Error fetching house members:", error);
+    throw error;
+  }
+};

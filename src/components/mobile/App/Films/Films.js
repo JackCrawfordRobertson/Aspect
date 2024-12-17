@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { fetchPopularMovies } from "@/components/api/TMDb";
+import { fetchPopularMovies } from "src/app/api/TMDb";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
-const HomePage = () => {
+const Films = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -143,4 +143,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default Films;

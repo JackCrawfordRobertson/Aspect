@@ -5,7 +5,7 @@ import MainNavigation from "@/components/mobile/App/MainNavigation"; // Adjust t
 
 const LandingPage = () => {
   return (
-    <div className="h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="h-screen bg-gray-100 dark:bg-zinc-900">
       <MainNavigation />
     </div>
   );

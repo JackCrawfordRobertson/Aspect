@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { fetchMoviesBySearch, fetchPopularMovies } from "@/components/api/TMDb";
+import { fetchMoviesBySearch, fetchPopularMovies } from "src/app/api/TMDb";
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");
