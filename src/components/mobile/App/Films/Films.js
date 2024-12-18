@@ -111,7 +111,7 @@ const Films = ({onMovieClick}) => {
 
             {/* Popular Movies Carousel */}
             <div>
-                <h2 className="text-lg font-bold mb-1 text-gray-900 dark:text-white">Popular Movies</h2>
+                <h2 className="text-lg font-bold mb-0 text-gray-900 dark:text-white">Popular Movies</h2>
                 {loading ? (
                     <p className="text-gray-600 dark:text-white">Loading popular movies...</p>
                 ) : error ? (
@@ -158,7 +158,7 @@ const Films = ({onMovieClick}) => {
                 ) : houseError ? (
                     <p className="text-red-600 dark:text-red-400">Error: {houseError}</p>
                 ) : (
-                    <div className="grid grid-cols-3 gap-4 mb-5">
+                    <div className="grid grid-cols-3 gap-4 mb-4">
                         {houseMovies.length > 0 ? (
                             houseMovies
                             .slice(-3)
@@ -188,7 +188,7 @@ const Films = ({onMovieClick}) => {
             </div>
 
             {/* Action Buttons */}
-            <div className="space-y-4">
+            <div className="space-y-3">
                 <Button
                     className="w-full"
                     variant="default"
