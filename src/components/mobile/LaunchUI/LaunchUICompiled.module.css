@@ -4,7 +4,7 @@
   bottom: 0;
   left: 0;
   width: 100%; /* Full width */
-  height: 30vh; /* Default collapsed height */
+  height: 35vh; /* Default collapsed height */
   background: #70707060; /* Semi-transparent background */
   backdrop-filter: blur(10px); /* Add blur effect for glassy look */
   color: #fff;
@@ -45,7 +45,7 @@
   margin-top: 5px;
   line-height: 1.4;
   color: #fff;
-  margin-bottom: 5em;
+  margin-bottom: 7em;
 }
 
 /* Circular button */

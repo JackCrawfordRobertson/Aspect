@@ -53,7 +53,7 @@ const LoginSignUp = () => {
       </div>
       <div className={styles.bottomContent}>
         <Button
-          variant="ghost"
+          variant="secondary"
           onClick={handleGoogleSignIn}
           className={`${styles.loginButton} ${styles.createAccountButton}`}
         >
@@ -72,7 +72,7 @@ const LoginSignUp = () => {
         </div>
 
         <Button
-          variant="ghost"
+          variant="secondary"
           onClick={handleToggleToCreate}
           className={`${styles.loginButton} ${styles.createAccountButton}`}
         >

@@ -27,7 +27,7 @@ const LaunchUICompiled = () => {
               <Button
                 onClick={toggleExpand}
                 variant="default"
-                className="absolute bottom-0 right-0 mb-8 w-12 h-12 rounded-full p-0 flex items-center justify-center"
+                className="absolute bottom-0 right-0 mb-10 w-16 h-16 rounded-full p-0 flex items-center justify-center"
               >
                 →
               </Button>

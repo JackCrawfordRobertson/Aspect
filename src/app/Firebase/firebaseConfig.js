@@ -1,8 +1,8 @@
-// Import the functions you need from the SDKs
+// Import the necessary Firebase SDKs
 import { initializeApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore"; // Import Firestore
+import { getFirestore } from "firebase/firestore";
 
 // Firebase configuration using environment variables
 const firebaseConfig = {
@@ -15,21 +15,34 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase
+// Initialize Firebase App
 const app = initializeApp(firebaseConfig);
+
+// Initialize Firebase Authentication
 const auth = getAuth(app);
-const db = getFirestore(app); // Initialize Firestore
 
-// Initialize Analytics (only in the browser)
+// Initialize Firestore Database
+const db = getFirestore(app);
+
+// Analytics Initialisation (in a browser-safe manner)
 let analytics;
-if (typeof window !== "undefined") {
-  isSupported().then((supported) => {
-    if (supported) {
-      analytics = getAnalytics(app);
-    } else {
-      console.warn("Firebase Analytics is not supported in this environment.");
-    }
-  });
-}
 
+export const initializeAnalytics = () => {
+  if (typeof window !== "undefined") {
+    isSupported()
+      .then((supported) => {
+        if (supported) {
+          analytics = getAnalytics(app);
+          console.log("Firebase Analytics initialized.");
+        } else {
+          console.warn("Firebase Analytics is not supported in this environment.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error checking Analytics support:", error);
+      });
+  }
+};
+
+// Exports
 export { app, auth, db, analytics };
