@@ -120,7 +120,7 @@ const MyHome = () => {
   return (
     <div className="p-6 bg-background mx-auto">
       {/* Profile Card */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
         <div className="col-span-2">
           <div className="p-0 mb-1 flex items-center">
             <div className="w-24 h-24 flex-shrink-0">
@@ -204,7 +204,7 @@ const MyHome = () => {
 
         {/* Movies in House */}
         <div className="p-0 rounded-lg">
-          <h1 className="text-2xl font-bold text-foreground mb-2">Movies in {houseInfo?.name}</h1>
+        <h2 className="text-lg font-bold mb-1 text-gray-900 dark:text-white">Movies in {houseInfo?.name}</h2>
           {movies.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {movies.map((movie) => (

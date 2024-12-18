@@ -1,14 +1,16 @@
 "use client";
+
 import React, { useState } from "react";
 import { signInWithGoogle } from "../../../../app/Firebase/firebaseAuth";
 import styles from "./LoginSignUp.module.css";
 import ExistingAccount from "../ExistingAccount/ExistingAccount";
 import CreateAccount from "../CreateAccount/CreateAccount";
 import GenreSelector from "../GenreSelector/GenreSelector";
+import { Button } from "@/components/ui/button";
 
 const LoginSignUp = () => {
-  const [viewMode, setViewMode] = useState("signUp"); // Tracks the current view
-  const [disableGenreSelector, setDisableGenreSelector] = useState(false); // New state
+  const [viewMode, setViewMode] = useState("signUp"); 
+  const [disableGenreSelector, setDisableGenreSelector] = useState(false); 
 
   const handleGoogleSignIn = async () => {
     try {
@@ -22,24 +24,23 @@ const LoginSignUp = () => {
 
   const handleToggleToLogin = () => {
     setViewMode("login");
-    setDisableGenreSelector(true); // Disable GenreSelector for login
+    setDisableGenreSelector(true);
   };
 
   const handleToggleToSignUp = () => {
     setViewMode("signUp");
-    setDisableGenreSelector(false); // Ensure GenreSelector is enabled for sign up
+    setDisableGenreSelector(false);
   };
 
   const handleToggleToCreate = () => {
     setViewMode("createAccount");
-    setDisableGenreSelector(false); // Ensure GenreSelector is enabled for account creation
+    setDisableGenreSelector(false);
   };
 
   const handleUserAuthenticated = () => {
     if (!disableGenreSelector) {
       setViewMode("genreSelector");
     } else {
-      // If GenreSelector is disabled, redirect or perform another action
       console.log("GenreSelector is disabled for this flow.");
     }
   };
@@ -51,9 +52,10 @@ const LoginSignUp = () => {
         word on what to watch.
       </div>
       <div className={styles.bottomContent}>
-        <button
-          className={`${styles.loginButton} ${styles.googleButton}`}
+        <Button
+          variant="ghost"
           onClick={handleGoogleSignIn}
+          className={`${styles.loginButton} ${styles.createAccountButton}`}
         >
           <img
             src="/images/flat-color-icons_google.svg"
@@ -61,18 +63,21 @@ const LoginSignUp = () => {
             className={styles.icon}
           />
           Continue with Google
-        </button>
+        </Button>
+
         <div className={styles.separator}>
           <span className={styles.line}></span>
           <span className={styles.orText}>Or</span>
           <span className={styles.line}></span>
         </div>
-        <button
-          className={`${styles.loginButton} ${styles.createAccountButton}`}
+
+        <Button
+          variant="ghost"
           onClick={handleToggleToCreate}
+          className={`${styles.loginButton} ${styles.createAccountButton}`}
         >
           Create an Account
-        </button>
+        </Button>
         <p className={styles.terms}>
           By signing up, you agree to the <a href="/terms">Terms of Service</a> and{" "}
           <a href="/privacy">Privacy Policy</a>, including Cookie Use.
