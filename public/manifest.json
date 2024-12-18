@@ -1,0 +1,21 @@
+{
+    "name": "Aspect",
+    "short_name": "Aspect",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#FF5733",
+    "description": "End the movie-night standoff. Pick, plan, and play – together.",
+    "icons": [
+      {
+        "src": "/android-chrome-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/android-chrome-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }

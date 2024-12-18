@@ -5,17 +5,12 @@ import { AuthProvider } from "./Firebase/authContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
-// Viewport Configuration
-export const viewport = {
-  width: "device-width",
-  initialScale: 1,
-  themeColor: "#FF5733",
-};
-
-// Metadata Configuration for Favicons and SEO
+// PWA-related metadata and configs
 export const metadata = {
   title: "Aspect",
   description: "End the movie-night standoff. Pick, plan, and play – together.",
+  manifest: "/manifest.json",
+  themeColor: "#FF5733",
   icons: {
     icon: [
       { url: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
@@ -23,22 +18,27 @@ export const metadata = {
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Aspect"
+  }
 };
 
 export default function RootLayout({ children }) {
+  // No "use client" here. This is a server component by default.
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${inter.variable}`}
-    >
+    <html lang="en" className={`${inter.variable}`}>
       <body>
+        {/* If AuthProvider depends on client logic, consider making AuthProvider a client component
+            and import it here as a child. */}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
+          {/* AuthProvider might need to be a client component. If so, wrap its logic in a `use client` file. */}
           <AuthProvider>{children}</AuthProvider>
         </ThemeProvider>
       </body>
