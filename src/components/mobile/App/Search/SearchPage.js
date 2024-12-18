@@ -64,17 +64,10 @@ const SearchPage = ({ query: initialQuery = "" }) => {
 
   return (
     <div className="p-6 bg-background" style={{ minHeight: "100%" }}>
-      <div className="mb-6 p-0 rounded">
-        <h1>Search</h1>
-        <p className="mt-2 text-gray-600 dark:text-white leading-5">
-          Use the search bar to find movies in your collection.
-        </p>
-      </div>
-
       <div className="flex space-x-2 mb-6">
         <input
           type="text"
-          placeholder="Enter movie name"
+          placeholder="Uncover your next watch..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded shadow bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200"
