@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation"; // For redirection
-import { useAuth } from "../../../app/Firebase/authContext"; // Use the custom hook
+import React, { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "../../../app/Firebase/authContext";
 import Films from "./Films/Films";
 import SearchPage from "./Search/SearchPage";
 import MyHouse from "./MyHouse/MyHouse";
@@ -12,29 +12,50 @@ import { Film, Search, House } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const MainNavigation = () => {
-  const { user, loading } = useAuth(); // Access user and loading state
-  const [activeTab, setActiveTab] = useState("home");
+  const { user, loading } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [activeTab, setActiveTab] = useState(() => searchParams.get("tab") || "home");
+
+  useEffect(() => {
+    const currentTab = searchParams.get("tab");
+    if (currentTab) {
+      setActiveTab(currentTab);
+    }
+  }, [searchParams]);
 
   if (loading) {
-    return <div>Loading...</div>; // Optionally render a spinner while loading
+    return <div>Loading...</div>;
   }
 
   if (!user) {
-    router.push("/login"); // Redirect to login if not authenticated
+    router.push("/login");
     return null;
   }
+
+  const navigateToTab = (tab) => {
+    setActiveTab(tab);
+    const currentQuery = searchParams.get("query") || "";
+    router.push(`/landing?tab=${tab}${currentQuery ? `&query=${encodeURIComponent(currentQuery)}` : ""}`);
+  };
 
   const renderActivePage = () => {
     switch (activeTab) {
       case "home":
-        return <Films />;
+        return <Films onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}`)} />;
       case "search":
-        return <SearchPage />;
+        const query = searchParams.get("query") || "";
+        return (
+          <SearchPage
+            query={query}
+            onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}&query=${encodeURIComponent(query)}`)}
+          />
+        );
       case "myHouse":
-        return <MyHouse />;
+        return <MyHouse onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}`)} />;
       default:
-        return <HomePage />;
+        return <Films />;
     }
   };
 
@@ -61,7 +82,7 @@ const MainNavigation = () => {
         <Button
           variant={activeTab === "home" ? "default" : "ghost"}
           size="sm"
-          onClick={() => setActiveTab("home")}
+          onClick={() => navigateToTab("home")}
         >
           <Film className="mr-2 h-4 w-4" />
           Films
@@ -69,7 +90,7 @@ const MainNavigation = () => {
         <Button
           variant={activeTab === "search" ? "default" : "ghost"}
           size="sm"
-          onClick={() => setActiveTab("search")}
+          onClick={() => navigateToTab("search")}
         >
           <Search className="mr-2 h-4 w-4" />
           Search
@@ -77,7 +98,7 @@ const MainNavigation = () => {
         <Button
           variant={activeTab === "myHouse" ? "default" : "ghost"}
           size="sm"
-          onClick={() => setActiveTab("myHouse")}
+          onClick={() => navigateToTab("myHouse")}
         >
           <House className="mr-2 h-4 w-4" />
           My House
