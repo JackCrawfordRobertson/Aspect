@@ -1,27 +1,26 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
+import React, {useState, useEffect} from "react";
+import {Button} from "@/components/ui/button";
+import {motion} from "framer-motion";
+import {Swiper, SwiperSlide} from "swiper/react";
+import {Autoplay, Pagination} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import { useAuth } from "../../../../app/Firebase/authContext";
-import { useRouter } from "next/navigation"; 
-import { db } from "../../../../app/Firebase/firebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
+import {useAuth} from "../../../../app/Firebase/authContext";
+import {useRouter} from "next/navigation";
+import {db} from "../../../../app/Firebase/firebaseConfig";
+import {doc, getDoc} from "firebase/firestore";
 
-
-const Films = ({ onMovieClick }) => {
-    const { user, loading: authLoading, error: authError } = useAuth();
+const Films = ({onMovieClick}) => {
+    const {user, loading: authLoading, error: authError} = useAuth();
     const router = useRouter();
 
     const [movies, setMovies] = useState([]); // Popular movies
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const [houseMovies, setHouseMovies] = useState([]); 
+    const [houseMovies, setHouseMovies] = useState([]);
     const [houseLoading, setHouseLoading] = useState(true);
     const [houseError, setHouseError] = useState(null);
 
@@ -44,14 +43,10 @@ const Films = ({ onMovieClick }) => {
         getMovies();
     }, []);
 
-    // Fetch House Movies Logic:
-    // 1. Wait for auth to load. If no user, redirect to /login.
-    // 2. Fetch user's document from Firestore, get their house ID.
-    // 3. Fetch that house document and retrieve its movies.
     useEffect(() => {
         if (authLoading) return;
         if (!user) {
-            router.push("/login");
+            router.push("/");
             return;
         }
 
@@ -96,9 +91,9 @@ const Films = ({ onMovieClick }) => {
     }, [authLoading, user, router]);
 
     const cardVariants = {
-        initial: { scale: 1, opacity: 1 },
-        hover: { scale: 1.05, opacity: 1 },
-        tap: { scale: 0.95, opacity: 0.8 },
+        initial: {scale: 1, opacity: 1},
+        hover: {scale: 1.05, opacity: 1},
+        tap: {scale: 0.95, opacity: 0.8},
     };
 
     if (authLoading) return <div>Loading...</div>;
@@ -126,10 +121,10 @@ const Films = ({ onMovieClick }) => {
                         modules={[Autoplay, Pagination]}
                         spaceBetween={16}
                         slidesPerView={2}
-                        autoplay={{ delay: 3000, disableOnInteraction: false }}
+                        autoplay={{delay: 3000, disableOnInteraction: false}}
                         breakpoints={{
-                            640: { slidesPerView: 2 },
-                            768: { slidesPerView: 3 },
+                            640: {slidesPerView: 2},
+                            768: {slidesPerView: 3},
                         }}
                         className="mb-0"
                     >
@@ -165,7 +160,10 @@ const Films = ({ onMovieClick }) => {
                 ) : (
                     <div className="grid grid-cols-3 gap-4 mb-5">
                         {houseMovies.length > 0 ? (
-                            houseMovies.slice(-3).reverse().map((movie) => (
+                            houseMovies
+                            .slice(-3)
+                            .reverse()
+                            .map((movie) => (
                                 <motion.div
                                     key={movie.id}
                                     className="bg-white dark:bg-gray-800 rounded-md overflow-hidden cursor-pointer"
@@ -173,6 +171,7 @@ const Films = ({ onMovieClick }) => {
                                     initial="initial"
                                     whileHover="hover"
                                     whileTap="tap"
+                                    onClick={() => router.push(`/movie/${movie.id}`)}
                                 >
                                     <img
                                         src={`https://image.tmdb.org/t/p/w200${movie.posterPath}`}
@@ -190,7 +189,7 @@ const Films = ({ onMovieClick }) => {
 
             {/* Action Buttons */}
             <div className="space-y-4">
-            <Button
+                <Button
                     className="w-full"
                     variant="default"
                     onClick={() => {
@@ -203,10 +202,7 @@ const Films = ({ onMovieClick }) => {
                 <motion.div
                     className="relative w-full rounded-md"
                     animate={{
-                        boxShadow: [
-                            "0 0 10px 1px rgba(255, 87, 51, 0.8)",
-                            "0 0 10px 1px rgba(255, 195, 0, 0.8)",
-                        ],
+                        boxShadow: ["0 0 10px 1px rgba(255, 87, 51, 0.8)", "0 0 10px 1px rgba(255, 195, 0, 0.8)"],
                     }}
                     transition={{
                         repeat: Infinity,

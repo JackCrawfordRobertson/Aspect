@@ -11,11 +11,6 @@ export async function generateMetadata() {
     title: "Aspect",
     description: "End the movie-night standoff. Pick, plan, and play – together.",
     manifest: "/manifest.json",
-    viewport: {
-      width: "device-width",
-      initialScale: 1,
-      themeColor: "#FF5733",
-    },
     icons: {
       icon: [
         { url: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
@@ -30,6 +25,12 @@ export async function generateMetadata() {
     },
   };
 }
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#FF5733",
+};
 
 export default function RootLayout({ children }) {
   return (

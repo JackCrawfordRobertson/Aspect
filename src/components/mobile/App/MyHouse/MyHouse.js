@@ -6,6 +6,7 @@ import { db } from "../../../../app/Firebase/firebaseConfig";
 import { useAuth } from "../../../../app/Firebase/authContext"; // Auth Context
 import { Avatar } from "@/components/ui/avatar"; // Shadcn UI component
 import { useRouter } from "next/navigation"; // Next.js 13+ routing
+import { motion } from "framer-motion";
 
 const fetchHouseMembers = async (memberIds) => {
   try {
@@ -69,7 +70,7 @@ const MyHome = () => {
   useEffect(() => {
     if (loading) return;
     if (!user) {
-      router.push("/login");
+      router.push("/");
       return;
     }
 
@@ -203,44 +204,52 @@ const MyHome = () => {
         </div>
 
         {/* Movies in House */}
-        <div className="p-0 rounded-lg">
-        <h2 className="text-lg font-bold mb-1 text-gray-900 dark:text-white">Movies in {houseInfo?.name}</h2>
-          {movies.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {movies.map((movie) => (
-                <div
-                  key={movie.id}
-                  className="p-4 bg-secondary rounded-lg shadow-md flex justify-between items-center"
-                >
-                  <div className="flex items-center">
-                    <img
-                      src={`https://image.tmdb.org/t/p/w200${movie.posterPath}`}
-                      alt={movie.title}
-                      className="w-16 h-24 object-cover rounded-md"
-                    />
-                    <div className="ml-4">
-                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white">{movie.title}</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Popularity: {movie.popularity ? movie.popularity.toFixed(1) : "N/A"}
-                      </p>
-                    </div>
-                  </div>
-                  <Avatar>
-                    <img
-                      src={
-                        members.find((m) => m.id === movie.addedBy)?.profilePicture || "/default-avatar.jpg"
-                      }
-                      alt={members.find((m) => m.id === movie.addedBy)?.name || "Unknown"}
-                      className="w-10 h-10 object-cover rounded-full"
-                    />
-                  </Avatar>
-                </div>
-              ))}
+       {/* Movies in House */}
+<div className="p-0 rounded-lg">
+  <h2 className="text-lg font-bold mb-1 text-gray-900 dark:text-white">
+    Movies in {houseInfo?.name}
+  </h2>
+  {movies.length > 0 ? (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {movies.map((movie) => (
+        <motion.div
+          key={movie.id}
+          className="p-4 bg-secondary rounded-lg shadow-md flex justify-between items-center cursor-pointer"
+          onClick={() => router.push(`/movie/${movie.id}`)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <div className="flex items-center">
+            <img
+              src={`https://image.tmdb.org/t/p/w200${movie.posterPath}`}
+              alt={movie.title}
+              className="w-16 h-24 object-cover rounded-md"
+            />
+            <div className="ml-4">
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">
+                {movie.title}
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Popularity: {movie.popularity ? movie.popularity.toFixed(1) : "N/A"}
+              </p>
             </div>
-          ) : (
-            <p>No movies have been added to this house yet.</p>
-          )}
-        </div>
+          </div>
+          <Avatar>
+            <img
+              src={
+                members.find((m) => m.id === movie.addedBy)?.profilePicture || "/default-avatar.jpg"
+              }
+              alt={members.find((m) => m.id === movie.addedBy)?.name || "Unknown"}
+              className="w-10 h-10 object-cover rounded-full"
+            />
+          </Avatar>
+        </motion.div>
+      ))}
+    </div>
+  ) : (
+    <p>No movies have been added to this house yet.</p>
+  )}
+</div>
       </div>
     </div>
   );

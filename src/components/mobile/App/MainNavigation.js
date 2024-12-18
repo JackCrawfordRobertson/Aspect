@@ -30,7 +30,7 @@ const MainNavigation = () => {
   }
 
   if (!user) {
-    router.push("/login");
+    router.push("/");
     return null;
   }
 
@@ -83,7 +83,7 @@ case "search":
       </div>
 
       {/* Bottom navigation */}
-      <nav className="flex justify-around items-center p-4 border-t bg-white shadow dark:bg-zinc-900 z-10">
+      <nav className="flex justify-around items-center p-4 border-t bg-white shadow dark:bg-zinc-900 z-10 pb-7">
         <Button
           variant={activeTab === "home" ? "default" : "ghost"}
           size="sm"
