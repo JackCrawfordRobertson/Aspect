@@ -58,7 +58,8 @@ const SearchPage = ({ query: initialQuery = "" }) => {
 
   const handleMovieClick = (id) => {
     const currentQuery = query || "";
-    router.push(`/movie/${id}?query=${encodeURIComponent(currentQuery)}`);
+    const currentTab = searchParams.get("tab") || "home"; // Get current tab from URL
+    router.push(`/movie/${id}?tab=${currentTab}&query=${encodeURIComponent(currentQuery)}`);
   };
 
   return (

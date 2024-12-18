@@ -40,24 +40,29 @@ const MainNavigation = () => {
     router.push(`/landing?tab=${tab}${currentQuery ? `&query=${encodeURIComponent(currentQuery)}` : ""}`);
   };
 
-  const renderActivePage = () => {
-    switch (activeTab) {
-      case "home":
-        return <Films onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}`)} />;
-      case "search":
-        const query = searchParams.get("query") || "";
-        return (
-          <SearchPage
-            query={query}
-            onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}&query=${encodeURIComponent(query)}`)}
-          />
-        );
-      case "myHouse":
-        return <MyHouse onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}`)} />;
-      default:
-        return <Films />;
-    }
-  };
+// In MainNavigation.js
+
+const renderActivePage = () => {
+  switch (activeTab) {
+    case "home":
+      return <Films onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}`)} />;
+   // In MainNavigation (already done)
+case "search":
+  const query = searchParams.get("query") || "";
+  return (
+    <SearchPage
+      query={query}
+      onMovieClick={(id) =>
+        router.push(`/movie/${id}?tab=${activeTab}&query=${encodeURIComponent(query)}`)
+      }
+    />
+  );
+    case "myHouse":
+      return <MyHouse onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}`)} />;
+    default:
+      return <Films onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}`)} />;
+  }
+};
 
   return (
     <div className="flex flex-col min-h-[100svh]">

@@ -22,7 +22,7 @@ const MovieDetail = () => {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const previousTab = searchParams.get("tab") || "home";
+  const previousTab = searchParams.get("tab") || "";
   const previousQuery = searchParams.get("query") || "";
 
   // Fetch movie and credits data
