@@ -76,36 +76,56 @@ const MyHome = () => {
 
     const fetchUserData = async () => {
       try {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+    
         if (userDoc.exists()) {
           const userData = userDoc.data();
           setUserProfile(userData);
           setTopFilmChoices(userData.filmCategories || []);
-
+    
+          // Fetch house data if user belongs to any house
           if (userData.houses?.length > 0) {
-            const houseDoc = await getDoc(doc(db, "houses", userData.houses[0]));
+            const houseDocRef = doc(db, "houses", userData.houses[0]);
+            const houseDoc = await getDoc(houseDocRef);
+    
             if (houseDoc.exists()) {
               const houseData = houseDoc.data();
               setHouseInfo(houseData);
-              setInviteCode(houseData.inviteCode);
-
-              const membersData = await fetchHouseMembers(houseData.members);
+              setInviteCode(houseData.inviteCode || "");
+    
+              // Fetch members
+              const membersData = await fetchHouseMembers(houseData.members || []);
               setMembers(membersData);
-
-              // Fetch additional details (popularity) for each movie
+    
+              // Fetch movies with additional details
               const moviesWithDetails = await Promise.all(
-                houseData.movies.map(async (movie) => {
-                  const movieRes = await fetch(
-                    `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
-                  );
-                  const movieData = await movieRes.json();
-                  return { ...movie, popularity: movieData.popularity || "N/A" };
+                (houseData.movies || []).map(async (movie) => {
+                  try {
+                    const movieRes = await fetch(
+                      `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`
+                    );
+    
+                    if (!movieRes.ok) throw new Error("Failed to fetch movie details");
+    
+                    const movieData = await movieRes.json();
+                    return { ...movie, popularity: movieData.popularity || "N/A" };
+                  } catch (movieFetchError) {
+                    console.error(`Error fetching details for movie ID ${movie.id}:`, movieFetchError);
+                    return { ...movie, popularity: "N/A" }; // Fallback for failed fetch
+                  }
                 })
               );
-
+    
               setMovies(moviesWithDetails);
+            } else {
+              console.warn("House document does not exist.");
             }
+          } else {
+            console.warn("User is not part of any house.");
           }
+        } else {
+          console.warn("User document does not exist.");
         }
       } catch (err) {
         console.error("Error fetching user or house data:", err);
@@ -119,7 +139,7 @@ const MyHome = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="p-6 bg-background mx-auto">
+    <div className="p-6 bg-background mx-auto h-full">
       {/* Profile Card */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
         <div className="col-span-2">
@@ -203,11 +223,10 @@ const MyHome = () => {
           )}
         </div>
 
-        {/* Movies in House */}
-       {/* Movies in House */}
+  {/* Movies in House */}
 <div className="p-0 rounded-lg">
   <h2 className="text-lg font-bold mb-1 text-gray-900 dark:text-white">
-    Movies in {houseInfo?.name}
+    Movies in {houseInfo?.name || "Your House"}
   </h2>
   {movies.length > 0 ? (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -247,11 +266,16 @@ const MyHome = () => {
       ))}
     </div>
   ) : (
-    <p>No movies have been added to this house yet.</p>
+    <div className="bg-muted p-6 rounded-lg text-center">
+      <p className="text-lg text-muted-foreground">
+      Your library’s waiting. <br /> Let’s get started.
+
+      </p>
+    </div>
   )}
 </div>
-      </div>
-    </div>
+</div>
+</div>
   );
 };
 

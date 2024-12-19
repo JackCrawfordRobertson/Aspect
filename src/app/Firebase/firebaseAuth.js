@@ -21,22 +21,35 @@ export const signInWithGoogle = async () => {
     const userDoc = doc(db, "users", user.uid);
     const docSnapshot = await getDoc(userDoc);
 
-    // Create user document if not existing
-    if (!docSnapshot.exists()) {
-      await setDoc(userDoc, {
-        name: user.displayName,
-        email: user.email,
-        createdAt: new Date().toISOString(),
-      });
+    // If the user exists, return as an existing user
+    if (docSnapshot.exists()) {
+      return { user, isNewUser: false }; // Existing user
     }
 
-    console.log("Google Sign-In Success:", user);
-    return user; // Return user object for further processing in the component
+    // Generate a random avatar using DiceBear API
+    const randomAvatarUrl = `https://api.dicebear.com/6.x/bottts/svg?seed=${user.displayName || user.email.split("@")[0]}`;
+
+    // Update the user's Firebase profile to include the avatar
+    await updateProfile(user, { photoURL: randomAvatarUrl });
+
+    // Create a new user document in Firestore
+    await setDoc(userDoc, {
+      name: user.displayName,
+      email: user.email,
+      profilePicture: randomAvatarUrl, // Save the generated avatar URL
+      createdAt: new Date().toISOString(),
+      houses: [], // Initialize with no houses
+      filmCategories: [], // Initialize with no favourite film categories
+    });
+
+    console.log("Google Sign-In New User Created with Avatar:", user);
+    return { user, isNewUser: true }; // New user
   } catch (error) {
     console.error("Google Sign-In Error:", error.message);
     throw error;
   }
 };
+
 
 // Create Account with Email/Password
 export const createAccountWithEmail = async (email, password, name) => {
@@ -120,3 +133,4 @@ export const checkEmailExists = async (email) => {
     throw error;
   }
 };
+

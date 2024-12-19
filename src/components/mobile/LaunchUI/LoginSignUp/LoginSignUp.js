@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { signInWithGoogle } from "../../../../app/Firebase/firebaseAuth";
+import { useRouter } from "next/navigation"; // Import useRouter
 import styles from "./LoginSignUp.module.css";
 import ExistingAccount from "../ExistingAccount/ExistingAccount";
 import CreateAccount from "../CreateAccount/CreateAccount";
@@ -9,14 +10,21 @@ import GenreSelector from "../GenreSelector/GenreSelector";
 import { Button } from "@/components/ui/button";
 
 const LoginSignUp = () => {
-  const [viewMode, setViewMode] = useState("signUp"); 
-  const [disableGenreSelector, setDisableGenreSelector] = useState(false); 
+  const [viewMode, setViewMode] = useState("signUp");
+  const [disableGenreSelector, setDisableGenreSelector] = useState(false);
+  const router = useRouter(); // Initialise router
 
   const handleGoogleSignIn = async () => {
     try {
-      const user = await signInWithGoogle();
+      const { user, isNewUser } = await signInWithGoogle();
       console.log("Google Sign-In Success:", user);
-      handleUserAuthenticated();
+
+      // Redirect based on whether the user is new or existing
+      if (isNewUser) {
+        setViewMode("genreSelector"); // Take new user to the genre selector
+      } else {
+        router.push("/landing"); // Redirect existing user to landing page
+      }
     } catch (error) {
       console.error("Error during Google Sign-In:", error.message);
     }
@@ -35,14 +43,6 @@ const LoginSignUp = () => {
   const handleToggleToCreate = () => {
     setViewMode("createAccount");
     setDisableGenreSelector(false);
-  };
-
-  const handleUserAuthenticated = () => {
-    if (!disableGenreSelector) {
-      setViewMode("genreSelector");
-    } else {
-      console.log("GenreSelector is disabled for this flow.");
-    }
   };
 
   const renderSignUpScreen = () => (
@@ -105,18 +105,12 @@ const LoginSignUp = () => {
 
       {/* Existing Account (Login) Screen */}
       <div className={`${styles.screenWrapper} ${viewMode === "login" ? styles.active : ""}`}>
-        <ExistingAccount 
-          onToggleMode={handleToggleToSignUp} 
-          onUserAuthenticated={handleUserAuthenticated} 
-        />
+        <ExistingAccount onToggleMode={handleToggleToSignUp} />
       </div>
 
       {/* Create Account Screen */}
       <div className={`${styles.screenWrapper} ${viewMode === "createAccount" ? styles.active : ""}`}>
-        <CreateAccount 
-          onToggleMode={handleToggleToSignUp} 
-          onUserAuthenticated={handleUserAuthenticated} 
-        />
+        <CreateAccount onToggleMode={handleToggleToSignUp} />
       </div>
 
       {/* Genre Selector Screen */}

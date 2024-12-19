@@ -151,41 +151,50 @@ const Films = ({onMovieClick}) => {
             </div>
 
             {/* House Library Section */}
-            <div>
-                <h2 className="text-lg font-bold mb-1 text-gray-900 dark:text-white">House Library</h2>
-                {houseLoading ? (
-                    <p className="text-gray-600 dark:text-gray-400">Loading movies...</p>
-                ) : houseError ? (
-                    <p className="text-red-600 dark:text-red-400">Error: {houseError}</p>
-                ) : (
-                    <div className="grid grid-cols-3 gap-4 mb-4">
-                        {houseMovies.length > 0 ? (
-                            houseMovies
-                            .slice(-3)
-                            .reverse()
-                            .map((movie) => (
-                                <motion.div
-                                    key={movie.id}
-                                    className="bg-white dark:bg-gray-800 rounded-md overflow-hidden cursor-pointer"
-                                    variants={cardVariants}
-                                    initial="initial"
-                                    whileHover="hover"
-                                    whileTap="tap"
-                                    onClick={() => router.push(`/movie/${movie.id}`)}
-                                >
-                                    <img
-                                        src={`https://image.tmdb.org/t/p/w200${movie.posterPath}`}
-                                        alt={movie.title}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </motion.div>
-                            ))
-                        ) : (
-                            <p>No movies have been added to this house yet.</p>
-                        )}
-                    </div>
-                )}
-            </div>
+<div>
+  <h2 className="text-lg font-bold mb-1 text-gray-900 dark:text-white">House Library</h2>
+  {houseLoading ? (
+    <p className="text-gray-600 dark:text-gray-400">Loading movies...</p>
+  ) : houseError ? (
+    <p className="text-red-600 dark:text-red-400">Error: {houseError}</p>
+  ) : (
+    <div
+      className={`grid ${
+        houseMovies.length > 0 ? "grid-cols-3" : "grid-cols-1"
+      } gap-4 mb-4`} // Dynamically set grid columns
+    >
+      {houseMovies.length > 0 ? (
+        houseMovies
+          .slice(-3)
+          .reverse()
+          .map((movie) => (
+            <motion.div
+              key={movie.id}
+              className="bg-white dark:bg-gray-800 rounded-md overflow-hidden cursor-pointer"
+              variants={cardVariants}
+              initial="initial"
+              whileHover="hover"
+              whileTap="tap"
+              onClick={() => router.push(`/movie/${movie.id}`)}
+            >
+              <img
+                src={`https://image.tmdb.org/t/p/w200${movie.posterPath}`}
+                alt={movie.title}
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+          ))
+      ) : (
+        <div className="bg-muted rounded-md p-4 flex items-center justify-center text-muted-foreground h-32 col-span-3">
+          {/* Use col-span-3 to fill all columns */}
+          <p className="mb-2 text-center text-lg">
+            Your library’s waiting. <br /> Let’s get started.
+          </p>
+        </div>
+      )}
+    </div>
+  )}
+</div>
 
             {/* Action Buttons */}
             <div className="space-y-3">

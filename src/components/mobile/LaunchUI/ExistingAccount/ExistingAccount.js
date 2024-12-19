@@ -72,7 +72,7 @@ const ExistingAccount = ({ onToggleMode, onUserAuthenticated }) => {
         </div>
 
         <p className={styles.forgotPasswordText}>
-          Forgot your password? <a href="/reset-password">Click Here.</a>
+          Forgot your password? <a href="/reset-password"><b><u>Click Here.</u></b></a>
         </p>
 
         <p className={styles.existingAccount}>
