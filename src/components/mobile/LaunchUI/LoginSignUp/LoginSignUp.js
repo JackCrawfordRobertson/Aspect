@@ -45,6 +45,11 @@ const LoginSignUp = () => {
     setDisableGenreSelector(false);
   };
 
+  const handleUserAuthenticated = () => {
+    console.log("User authenticated");
+    // Perform additional actions like updating UI or state
+  };
+
   const renderSignUpScreen = () => (
     <div className={styles.loginContainer}>
       <div className={styles.title}>
@@ -105,8 +110,10 @@ const LoginSignUp = () => {
 
       {/* Existing Account (Login) Screen */}
       <div className={`${styles.screenWrapper} ${viewMode === "login" ? styles.active : ""}`}>
-        <ExistingAccount onToggleMode={handleToggleToSignUp} />
-      </div>
+      <ExistingAccount
+  onToggleMode={handleToggleToSignUp}
+  onUserAuthenticated={handleUserAuthenticated}
+/>      </div>
 
       {/* Create Account Screen */}
       <div className={`${styles.screenWrapper} ${viewMode === "createAccount" ? styles.active : ""}`}>
