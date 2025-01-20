@@ -3,6 +3,7 @@ import "../app/styles/globals.css";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/themeProvider";
 import { Suspense } from "react";
+import { AuthProvider } from "./Firebase/authContext"; // Import the AuthProvider
 
 const inter = Inter({
   subsets: ["latin"],
@@ -46,7 +47,9 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <ThemeProvider>
+        <AuthProvider> 
           <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

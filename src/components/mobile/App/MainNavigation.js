@@ -1,20 +1,29 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../../../app/Firebase/authContext";
 import Films from "./Films/Films";
 import SearchPage from "./Search/SearchPage";
 import MyHouse from "./MyHouse/MyHouse";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/ui/ModeToggle";
-import { Film, Search, House } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import { Film, Search, House, LogOut, MoreHorizontal, Moon, Sun } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "next-themes";
 
 const MainNavigation = () => {
   const { user, loading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const { setTheme } = useTheme();
 
   const [activeTab, setActiveTab] = useState(() => searchParams.get("tab") || "home");
 
@@ -25,44 +34,51 @@ const MainNavigation = () => {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/"); // Redirect to login page if no user
+    }
+  }, [loading, user, router]);
+
+  const navigateToTab = useCallback(
+    (tab) => {
+      setActiveTab(tab);
+      const currentQuery = searchParams.get("query") || "";
+      router.push(
+        `/landing?tab=${tab}${currentQuery ? `&query=${encodeURIComponent(currentQuery)}` : ""}`
+      );
+    },
+    [searchParams, router]
+  );
+
+  const handleLogOut = useCallback(() => {
+    router.push("/"); // Redirect to login/home page
+  }, [router]);
+
+  const renderActivePage = () => {
+    switch (activeTab) {
+      case "home":
+        return <Films onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}`)} />;
+      case "search":
+        const query = searchParams.get("query") || "";
+        return (
+          <SearchPage
+            query={query}
+            onMovieClick={(id) =>
+              router.push(`/movie/${id}?tab=${activeTab}&query=${encodeURIComponent(query)}`)
+            }
+          />
+        );
+      case "myHouse":
+        return <MyHouse onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}`)} />;
+      default:
+        return <Films onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}`)} />;
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
-
-  if (!user) {
-    router.push("/");
-    return null;
-  }
-
-  const navigateToTab = (tab) => {
-    setActiveTab(tab);
-    const currentQuery = searchParams.get("query") || "";
-    router.push(`/landing?tab=${tab}${currentQuery ? `&query=${encodeURIComponent(currentQuery)}` : ""}`);
-  };
-
-// In MainNavigation.js
-
-const renderActivePage = () => {
-  switch (activeTab) {
-    case "home":
-      return <Films onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}`)} />;
-   // In MainNavigation (already done)
-case "search":
-  const query = searchParams.get("query") || "";
-  return (
-    <SearchPage
-      query={query}
-      onMovieClick={(id) =>
-        router.push(`/movie/${id}?tab=${activeTab}&query=${encodeURIComponent(query)}`)
-      }
-    />
-  );
-    case "myHouse":
-      return <MyHouse onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}`)} />;
-    default:
-      return <Films onMovieClick={(id) => router.push(`/movie/${id}?tab=${activeTab}`)} />;
-  }
-};
 
   return (
     <div className="flex flex-col min-h-[100svh]">
@@ -83,7 +99,7 @@ case "search":
       </div>
 
       {/* Bottom navigation */}
-      <nav className="flex justify-around items-center p-4 border-t bg-white shadow dark:bg-zinc-900 z-10 pb-7">
+      <nav className="flex justify-around items-center p-4 border-t bg-white shadow dark:bg-zinc-900 z-10">
         <Button
           variant={activeTab === "home" ? "default" : "ghost"}
           size="sm"
@@ -108,7 +124,34 @@ case "search":
           <House className="mr-2 h-4 w-4" />
           My House
         </Button>
-        <ModeToggle />
+
+        {/* Dropdown Menu */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="sm">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem className="text-red-600 dark:text-red-400" onClick={handleLogOut}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Log Out
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => setTheme("light")}>
+              <Sun className="mr-2 h-4 w-4" />
+              Light Mode
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("dark")}>
+              <Moon className="mr-2 h-4 w-4" />
+              Dark Mode
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("system")}>
+              <MoreHorizontal className="mr-2 h-4 w-4" />
+              System Mode
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </nav>
     </div>
   );

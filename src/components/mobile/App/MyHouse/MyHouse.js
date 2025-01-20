@@ -139,7 +139,7 @@ const MyHome = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="p-6 bg-background mx-auto h-full">
+    <div className="p-6 bg-background mx-auto h-auto">
       {/* Profile Card */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
         <div className="col-span-2">

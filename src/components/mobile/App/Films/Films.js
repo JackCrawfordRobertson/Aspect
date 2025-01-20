@@ -211,12 +211,19 @@ const Films = ({ onMovieClick }) => {
               boxShadow: [
                 "0 0 10px 1px rgba(255, 87, 51, 0.8)",
                 "0 0 10px 1px rgba(255, 195, 0, 0.8)",
+                "0 0 10px 1px rgba(40, 180, 99, 0.8)",
+                "0 0 10px 1px rgba(40, 116, 166, 0.8)",
+                "0 0 10px 1px rgba(175, 122, 197, 0.8)",
+                "0 0 10px 1px rgba(231, 76, 60, 0.8)",
+                "0 0 10px 1px rgba(243, 156, 18, 0.8)",
+                "0 0 10px 1px rgba(26, 188, 156, 0.8)",
+                "0 0 10px 1px rgba(255, 87, 51, 0.8)"
               ],
             }}
             transition={{
               repeat: Infinity,
-              duration: 6,
-              ease: "linear",
+              duration: 12, // Increase duration for smoother transitions
+              ease: [0.4, 0.0, 0.2, 1], // Smooth cubic-bezier easing
             }}
           >
             <Button
