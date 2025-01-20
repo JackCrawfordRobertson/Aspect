@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   collection,
@@ -11,6 +11,7 @@ import {
   where,
   getDocs,
   onSnapshot,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 
@@ -20,6 +21,9 @@ const generateInviteCode = () =>
 
 // Create a new house
 export const createHouse = async (houseName, description, userId) => {
+  if (!db) throw new Error("Database is not initialised.");
+  if (!userId) throw new Error("User ID is required.");
+
   try {
     const inviteCode = generateInviteCode();
 
@@ -45,6 +49,10 @@ export const createHouse = async (houseName, description, userId) => {
 
 // Join a house by invite code
 export const joinHouse = async (inviteCode, userId) => {
+  if (!db) throw new Error("Database is not initialised.");
+  if (!userId) throw new Error("User ID is required.");
+  if (!inviteCode) throw new Error("Invite code is required.");
+
   try {
     const housesRef = collection(db, "houses");
     const houseQuery = query(housesRef, where("inviteCode", "==", inviteCode));
@@ -74,6 +82,11 @@ export const joinHouse = async (inviteCode, userId) => {
 
 // Send a message in a house chat
 export const sendMessage = async (houseId, userId, message) => {
+  if (!db) throw new Error("Database is not initialised.");
+  if (!houseId) throw new Error("House ID is required.");
+  if (!userId) throw new Error("User ID is required.");
+  if (!message) throw new Error("Message cannot be empty.");
+
   try {
     const messagesRef = collection(db, "houses", houseId, "messages");
     await addDoc(messagesRef, {
@@ -89,19 +102,37 @@ export const sendMessage = async (houseId, userId, message) => {
 
 // Subscribe to real-time messages in a house chat
 export const subscribeToMessages = (houseId, callback) => {
-  const messagesRef = collection(db, "houses", houseId, "messages");
+  if (!db) throw new Error("Database is not initialised.");
+  if (!houseId) throw new Error("House ID is required.");
+  if (typeof callback !== "function") {
+    throw new Error("Callback must be a valid function.");
+  }
 
-  return onSnapshot(messagesRef, (snapshot) => {
-    const messages = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    callback(messages);
-  });
+  try {
+    const messagesRef = collection(db, "houses", houseId, "messages");
+
+    const unsubscribe = onSnapshot(messagesRef, (snapshot) => {
+      const messages = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      callback(messages);
+    });
+
+    return unsubscribe; // Call this to clean up the listener
+  } catch (error) {
+    console.error("Error subscribing to messages:", error);
+    throw error;
+  }
 };
 
 // Fetch user details for each member ID
 export const fetchHouseMembers = async (memberIds) => {
+  if (!db) throw new Error("Database is not initialised.");
+  if (!Array.isArray(memberIds) || memberIds.length === 0) {
+    throw new Error("Member IDs must be a non-empty array.");
+  }
+
   try {
     const memberDetails = await Promise.all(
       memberIds.map(async (userId) => {
@@ -119,5 +150,3 @@ export const fetchHouseMembers = async (memberIds) => {
     throw error;
   }
 };
-
-

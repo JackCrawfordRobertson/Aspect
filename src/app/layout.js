@@ -1,11 +1,16 @@
-// Import styles and fonts
+// src/app/layout.js
 import "../app/styles/globals.css";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/themeProvider";
-import { AuthProvider } from "./Firebase/authContext";
+import { Suspense } from "react";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter", 
+  display: "swap",          
+});
 
+// Server-side metadata function
 export async function generateMetadata() {
   return {
     title: "Aspect",
@@ -20,12 +25,13 @@ export async function generateMetadata() {
     },
     appleWebApp: {
       capable: true,
-      statusBarStyle: "#FF5733",
+      statusBarStyle: "default",
       title: "Aspect",
     },
   };
 }
 
+// Next.js 15+ viewport export
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -34,17 +40,20 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable}`}>
+    <html lang="en" className={inter.variable}>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <AuthProvider>{children}</AuthProvider>
+        <ThemeProvider>
+          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         </ThemeProvider>
       </body>
     </html>
   );
 }
+
+
+
+
+

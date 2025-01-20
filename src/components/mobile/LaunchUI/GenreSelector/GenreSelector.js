@@ -1,23 +1,23 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter for navigation
+import { useRouter } from "next/navigation";
 import { auth, db } from "../../../../app/Firebase/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { motion } from "framer-motion";
 import { LinearProgress } from "@mui/material";
+import dynamic from "next/dynamic";
 import styles from "./GenreSelector.module.css";
-import HouseFork from "../HouseFork/HouseForkLogic"; // Import HouseFork component
+
+// Dynamically import HouseFork to prevent unnecessary SSR
+const HouseFork = dynamic(() => import("../HouseFork/HouseForkLogic"), {
+  ssr: false,
+});
 
 const GenreSelector = ({ onGenresSelected }) => {
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const [showHouseFork, setShowHouseFork] = useState(false); // State to toggle between components
+  const [showHouseFork, setShowHouseFork] = useState(false);
   const router = useRouter();
-
-  const getBaseRadius = (genre) => {
-    const baseRadius = 40;
-    const lengthFactor = Math.min(genre.length * 2, 80);
-    return baseRadius + lengthFactor;
-  };
 
   const genres = [
     "Film Noir",
@@ -26,6 +26,12 @@ const GenreSelector = ({ onGenresSelected }) => {
     "Coming-of-Age",
     "Thriller",
   ];
+
+  const getBaseRadius = (genre) => {
+    const baseRadius = 40;
+    const lengthFactor = Math.min(genre.length * 2, 80);
+    return baseRadius + lengthFactor;
+  };
 
   const [bubbles, setBubbles] = useState(() =>
     genres.map((genre) => ({
@@ -41,19 +47,20 @@ const GenreSelector = ({ onGenresSelected }) => {
   const animationRef = useRef(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") return; // Ensure the code only runs on the client
+
     const container = containerRef.current;
     if (!container) return;
 
-    const {width, height} = container.getBoundingClientRect();
+    const { width, height } = container.getBoundingClientRect();
 
     const update = () => {
       setBubbles((prevBubbles) => {
         const updated = [...prevBubbles];
 
-        // Move bubbles
         for (let i = 0; i < updated.length; i++) {
           const radius = getBaseRadius(updated[i].genre);
-          let {x, y, vx, vy} = updated[i];
+          let { x, y, vx, vy } = updated[i];
 
           x += vx;
           y += vy;
@@ -61,11 +68,11 @@ const GenreSelector = ({ onGenresSelected }) => {
           // Bounce off the container edges
           if (x - radius < 0) {
             x = radius;
-            vx = Math.abs(vx); // ensure it moves inward
+            vx = Math.abs(vx);
           }
           if (x + radius > width) {
             x = width - radius;
-            vx = -Math.abs(vx); // ensure it moves inward
+            vx = -Math.abs(vx);
           }
           if (y - radius < 0) {
             y = radius;
@@ -76,76 +83,7 @@ const GenreSelector = ({ onGenresSelected }) => {
             vy = -Math.abs(vy);
           }
 
-          updated[i] = {...updated[i], x, y, vx, vy};
-        }
-
-        // Collision detection between bubbles
-        for (let i = 0; i < updated.length; i++) {
-          const rA = getBaseRadius(updated[i].genre);
-
-          for (let j = i + 1; j < updated.length; j++) {
-            const rB = getBaseRadius(updated[j].genre);
-
-            const dx = updated[j].x - updated[i].x;
-            const dy = updated[j].y - updated[i].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (dist < rA + rB) {
-              // Swap velocities
-              const tempVx = updated[i].vx;
-              const tempVy = updated[i].vy;
-              updated[i].vx = updated[j].vx;
-              updated[i].vy = updated[j].vy;
-              updated[j].vx = tempVx;
-              updated[j].vy = tempVy;
-
-              // Push them apart
-              const overlap = (rA + rB - dist) / 2;
-              const nx = dx / dist;
-              const ny = dy / dist;
-              updated[i].x -= nx * overlap;
-              updated[i].y -= ny * overlap;
-              updated[j].x += nx * overlap;
-              updated[j].y += ny * overlap;
-
-              // After pushing apart, check boundaries again
-              // Bubble i
-              if (updated[i].x - rA < 0) {
-                updated[i].x = rA;
-                updated[i].vx = Math.abs(updated[i].vx);
-              }
-              if (updated[i].x + rA > width) {
-                updated[i].x = width - rA;
-                updated[i].vx = -Math.abs(updated[i].vx);
-              }
-              if (updated[i].y - rA < 0) {
-                updated[i].y = rA;
-                updated[i].vy = Math.abs(updated[i].vy);
-              }
-              if (updated[i].y + rA > height) {
-                updated[i].y = height - rA;
-                updated[i].vy = -Math.abs(updated[i].vy);
-              }
-
-              // Bubble j
-              if (updated[j].x - rB < 0) {
-                updated[j].x = rB;
-                updated[j].vx = Math.abs(updated[j].vx);
-              }
-              if (updated[j].x + rB > width) {
-                updated[j].x = width - rB;
-                updated[j].vx = -Math.abs(updated[j].vx);
-              }
-              if (updated[j].y - rB < 0) {
-                updated[j].y = rB;
-                updated[j].vy = Math.abs(updated[j].vy);
-              }
-              if (updated[j].y + rB > height) {
-                updated[j].y = height - rB;
-                updated[j].vy = -Math.abs(updated[j].vy);
-              }
-            }
-          }
+          updated[i] = { ...updated[i], x, y, vx, vy };
         }
 
         return updated;
@@ -177,6 +115,7 @@ const GenreSelector = ({ onGenresSelected }) => {
     try {
       const userId = auth.currentUser?.uid;
       if (!userId) throw new Error("No user is logged in.");
+
       const userRef = doc(db, "users", userId);
       await setDoc(userRef, { selectedGenres }, { merge: true });
       console.log("Genres saved successfully!");
@@ -190,7 +129,6 @@ const GenreSelector = ({ onGenresSelected }) => {
 
   const progressValue = (selectedGenres.length / 3) * 100;
 
-  // Render HouseFork if state is toggled
   if (showHouseFork) {
     return <HouseFork />;
   }

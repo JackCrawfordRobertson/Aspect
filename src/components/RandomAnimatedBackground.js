@@ -6,8 +6,21 @@ const AnimatedBackground = () => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    // Ensure this code only runs on the client
+    if (typeof window === "undefined") return;
+
     const canvas = canvasRef.current;
+    if (!canvas) {
+      console.error("Canvas element not found.");
+      return;
+    }
+
     const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      console.error("Failed to get 2D context for canvas.");
+      return;
+    }
+
     let animationFrameId;
     const pixelRatio = window.devicePixelRatio || 1;
 
@@ -18,6 +31,7 @@ const AnimatedBackground = () => {
       ctx.scale(pixelRatio, pixelRatio);
     };
 
+    // Add resize listener and call resizeCanvas initially
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
@@ -26,8 +40,8 @@ const AnimatedBackground = () => {
     const totalLines = 10; // Number of lines
     const lineSegments = 100; // Number of segments per line (increase for smoothness)
     const amplitude = 50; // Wiggle amplitude
-    const duration = 1.5; // Reduced duration for faster animation
-    const speed = 1 / (60 * duration); 
+    const duration = 1.5; // Duration of line animation in seconds
+    const speed = 1 / (60 * duration); // Progress increment per frame
     const frequency = 0.1; // Lower value for more spaced-out wiggles
     const colours = [
       "#FF5733",
@@ -39,8 +53,8 @@ const AnimatedBackground = () => {
       "#F39C12",
       "#1ABC9C",
     ];
-    let colourIndex = 0; 
-    let currentAnimationIndex = 0; 
+    let colourIndex = 0;
+    let currentAnimationIndex = 0;
 
     // Easing function (Sine ease-in-out)
     const easeInOutSine = (t) => -(Math.cos(Math.PI * t) - 1) / 2;
@@ -52,15 +66,15 @@ const AnimatedBackground = () => {
       return colour;
     };
 
-    // Generate evenly distributed lines with dynamic angles
+    // Generate a random line with dynamic angles
     const generateRandomLine = (index) => {
       const side = index % 2 === 0 ? "left" : "right";
-      const segmentHeight = window.innerHeight / totalLines; 
+      const segmentHeight = window.innerHeight / totalLines;
       let startX, startY, endX, endY;
 
       startY = segmentHeight * index + Math.random() * segmentHeight * 0.5;
       const angle = (Math.random() - 0.5) * (Math.PI / 3);
-      const distance = window.innerWidth + 200; 
+      const distance = window.innerWidth + 200;
 
       if (side === "left") {
         startX = -20;
@@ -88,13 +102,13 @@ const AnimatedBackground = () => {
       lines.push(generateRandomLine(i));
     }
 
-    // Shuffle the lines array to randomise animation order
+    // Shuffle the lines array for random animation order
     for (let i = lines.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [lines[i], lines[j]] = [lines[j], lines[i]];
     }
 
-    // Draw and animate the lines
+    // Draw and animate lines
     const drawLine = (ctx, line) => {
       ctx.strokeStyle = line.colour;
       ctx.lineWidth = 40;
@@ -120,20 +134,17 @@ const AnimatedBackground = () => {
     };
 
     const animate = () => {
-      // Clear at scaled dimensions
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       lines.forEach((line, index) => {
         line.wiggleOffset += 0.02;
         drawLine(ctx, line);
 
-        // Animate progress for the current line
         if (index === currentAnimationIndex && line.progress < 1) {
           line.progress += speed;
         }
       });
 
-      // Move to the next line once the current one finishes
       if (
         currentAnimationIndex < lines.length - 1 &&
         lines[currentAnimationIndex].progress >= 1
@@ -147,6 +158,7 @@ const AnimatedBackground = () => {
     animate();
 
     return () => {
+      // Cleanup on component unmount
       window.removeEventListener("resize", resizeCanvas);
       cancelAnimationFrame(animationFrameId);
     };
@@ -155,7 +167,16 @@ const AnimatedBackground = () => {
   return (
     <canvas
       ref={canvasRef}
-      style={{ position: "fixed", top: 0, left: 0, zIndex: -1, width: "100%", height: "100%" }}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        zIndex: -1,
+        width: "100%",
+        height: "100%",
+      }}
+      width={1920} // Fallback width for server-side rendering
+      height={1080} // Fallback height for server-side rendering
     />
   );
 };

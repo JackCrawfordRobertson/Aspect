@@ -1,12 +1,13 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import { signInWithGoogle } from "../../../../app/Firebase/firebaseAuth";
 import { useRouter } from "next/navigation"; // Import useRouter
 import styles from "./LoginSignUp.module.css";
 import ExistingAccount from "../ExistingAccount/ExistingAccount";
 import CreateAccount from "../CreateAccount/CreateAccount";
-import GenreSelector from "../GenreSelector/GenreSelector";
+const GenreSelector = dynamic(() => import("../GenreSelector/GenreSelector"), { ssr: false });
 import { Button } from "@/components/ui/button";
 
 const LoginSignUp = () => {
