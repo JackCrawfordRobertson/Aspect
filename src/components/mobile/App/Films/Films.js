@@ -94,7 +94,12 @@ const Films = ({ onMovieClick }) => {
     tap: { scale: 0.95, opacity: 0.8 },
   };
 
-  if (authLoading) return <div>Loading...</div>;
+  if (authLoading) return   <div className="flex items-center justify-center min-h-screen">
+  <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
+</div>;
+
+
+
   if (authError) return <div>Error: {authError.message}</div>;
 
   return (

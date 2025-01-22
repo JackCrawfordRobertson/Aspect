@@ -98,6 +98,8 @@ const MyHome = () => {
               const membersData = await fetchHouseMembers(houseData.members || []);
               setMembers(membersData);
     
+
+              
               // Fetch movies with additional details
               const moviesWithDetails = await Promise.all(
                 (houseData.movies || []).map(async (movie) => {
@@ -109,8 +111,13 @@ const MyHome = () => {
                     if (!movieRes.ok) throw new Error("Failed to fetch movie details");
     
                     const movieData = await movieRes.json();
-                    return { ...movie, popularity: movieData.popularity || "N/A" };
-                  } catch (movieFetchError) {
+                    const maxPopularity = 1000; // Adjust based on expected max score
+                    return {
+                      ...movie,
+                      popularity: movieData.popularity
+                        ? ((movieData.popularity / maxPopularity) * 10).toFixed(1) // Normalise to 10-point scale
+                        : "N/A",
+                    };                  } catch (movieFetchError) {
                     console.error(`Error fetching details for movie ID ${movie.id}:`, movieFetchError);
                     return { ...movie, popularity: "N/A" }; // Fallback for failed fetch
                   }
@@ -135,7 +142,9 @@ const MyHome = () => {
     fetchUserData();
   }, [user, loading, router]); // Ensure dependencies are included
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return   <div className="flex items-center justify-center min-h-screen">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
+    </div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -249,8 +258,8 @@ const MyHome = () => {
                 {movie.title}
               </h4>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Popularity: {movie.popularity ? movie.popularity.toFixed(1) : "N/A"}
-              </p>
+  Popularity: {movie.popularity}/10
+</p>
             </div>
           </div>
           <Avatar>

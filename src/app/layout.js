@@ -39,6 +39,15 @@ export const viewport = {
   themeColor: "#FF5733",
 };
 
+// Spinner Component
+function Spinner() {
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
+    </div>
+  );
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
@@ -48,15 +57,10 @@ export default function RootLayout({ children }) {
       <body>
         <ThemeProvider>
         <AuthProvider> 
-          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          <Suspense fallback={<Spinner />}>{children}</Suspense>
         </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
   );
 }
-
-
-
-
-

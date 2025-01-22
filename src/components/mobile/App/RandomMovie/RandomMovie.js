@@ -60,7 +60,7 @@ const RandomMoviePicker = ({ isOpen, onClose, houseMovies }) => {
           <div className="relative z-10 w-full max-w-md p-4">
             <Card className="bg-transparent border-none shadow-none">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="text-center text-2xl font-bold text-primary dark:text-white">
+                <CardTitle className="text-center text-2xl font-bold text-foreground/80 dark:text-white">
                   {loading
                     ? "Loading a Random Film..."
                     : randomMovie
